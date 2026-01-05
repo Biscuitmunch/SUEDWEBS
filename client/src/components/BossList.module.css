@@ -1,0 +1,86 @@
+.bossList {
+  max-height: 600px;
+  /* min-width: 400px; */
+  overflow-y: scroll;
+  border: 5px solid var(--ctp-surface0);
+  padding: 1rem;
+}
+
+.bossEntry {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1rem;
+  transition: padding-left 150ms ease-in-out;
+}
+
+.bossEntry:hover {
+  padding-left: 8px;
+}
+
+@keyframes slide-right {
+  from {
+    padding-left: 0;
+  }
+
+  to {
+    padding-left: 8px;
+  }
+}
+
+.previous {
+  color: var(--ctp-green);
+}
+
+.current {
+  color: var(--ctp-yellow);
+}
+
+.future {
+  background-color: gray;
+  color: transparent;
+  user-select: none;
+  margin: 1px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 180ms ease-out;
+}
+
+.future:not([clicked]):hover {
+  filter: brightness(120%);
+}
+
+.future[clicked] {
+  background-color: inherit;
+  color: var(--ctp-red);
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--ctp-surface2);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--ctp-overlay1);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ctp-overlay2);
+}
+
+.showAll {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+  cursor: pointer;
+}
+
+.showAll > input {
+  cursor: pointer;
+}
