@@ -44,6 +44,8 @@ function Countdown() {
           {nextBossDateTime.unix() - now.unix() > 0 && `${seconds} seconds`}
         </h1>
       )}
+      {nextBossDateTime !== undefined &&
+        nextBossDateTime.unix() <= now.unix() && <h1>Boss Time!</h1>}
     </div>
   );
 }
