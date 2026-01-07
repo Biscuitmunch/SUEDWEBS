@@ -36,9 +36,16 @@ function Countdown() {
 
   return (
     <div className={styles.timer}>
-      <h1>
-        {days} days, {hours} hours, {minutes} minutes, {seconds} seconds
-      </h1>
+      {nextBossDateTime !== undefined && (
+        <h1>
+          {nextBossDateTime.unix() - now.unix() > 86400 && `${days} days, `}
+          {nextBossDateTime.unix() - now.unix() > 3600 && `${hours} hours, `}
+          {nextBossDateTime.unix() - now.unix() > 60 && `${minutes} minutes, `}
+          {nextBossDateTime.unix() - now.unix() > 0 && `${seconds} seconds`}
+        </h1>
+      )}
+      {nextBossDateTime !== undefined &&
+        nextBossDateTime.unix() <= now.unix() && <h1>Boss Time!</h1>}
     </div>
   );
 }
