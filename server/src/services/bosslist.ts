@@ -18,7 +18,7 @@ const dbPath = path.join(__dirname, "..", "db", "terraria.db");
 const db = new DatabaseSync(dbPath);
 
 export function bosslist(req: Request, res: Response) {
-  const query = db.prepare("SELECT * FROM bosslist");
-  const bosses = query.all();
+  const query = db.prepare("SELECT * FROM bosslist where type = Boss");
+  const bosses: Boss[] = query.all() as unknown as Boss[]; // Idk how to make this type safe...
   res.json(bosses);
 }
