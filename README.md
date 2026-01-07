@@ -2,6 +2,8 @@
 
 Ensure you have [node](https://nodejs.org/) installed.
 
+Create a file `terraria.db` in `/server/src/db`
+
 Terminal 1
 
 ```
