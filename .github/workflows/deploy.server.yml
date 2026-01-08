@@ -25,7 +25,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          scripts: |
+          script: |
             cd ${{ secrets.SSH_DIRECTORY }}
             git reset --hard
             git clean -d --force --quiet
