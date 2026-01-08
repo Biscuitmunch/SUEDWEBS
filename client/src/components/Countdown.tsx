@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import styles from "./Countdown.module.css";
-
-const BASE_URL = import.meta.env.VITE_API_URL;
+import { BASE_URL } from "../constants";
 
 function Countdown() {
   const [nextBossDateTime, setNextBossDateTime] = useState<
