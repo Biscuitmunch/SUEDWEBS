@@ -24,3 +24,6 @@ build
 *.sln
 *.sw?
 .env
+
+*.db
+*.db-journal

@@ -17,7 +17,6 @@ const dbPath = path.join(
   import.meta.dirname,
   "..",
   "..",
-  "..",
   inDocker ? "docker_db" : "db",
   "terraria.db"
 );
@@ -29,7 +28,7 @@ if (!existsSync(dbPath)) {
 const db = new DatabaseSync(dbPath);
 
 const rawSql = readFileSync(
-  join(import.meta.dirname, "..", "..", "..", "db", "tables", "bosslist.sql"),
+  join(import.meta.dirname, "..", "..", "db", "tables", "bosslist.sql"),
   "utf-8"
 );
 
