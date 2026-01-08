@@ -6,6 +6,7 @@
   border: 0.313rem solid var(--ctp-surface0);
   background: var(--ctp-mantle);
   border-radius: 48px;
+  justify-content: left;
   aspect-ratio: 7.5;
   position: relative;
 }
@@ -86,9 +87,49 @@
   }
 }
 
+.bossSkullContainer {
+  display: flex;
+  flex-direction: row;
+  width: 40rem;
+  height: inherit;
+  min-height: 100%;
+  min-width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  white-space: nowrap;
+  font-size: 3rem;
+  font-size: 2.5vw;
+}
+
 .bossSkull {
   background-image: url(../assets/pixelskull.png);
   background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  min-height: 100%;
+  min-width: 10%;
+  justify-items: center;
+  animation: slam 1.5s ease-in-out;
+}
+
+@keyframes slam{
+ 0% {
+  opacity: 0;
+ }
+ 10% {
+  opacity: 1;
+  transform: scale(3);
+ }
+ 30% {
+  transform: translateY(100px);
+ }
+ 90% {
+  transform: scale(1);
+ }
+ 100% {
+  transform: translateY(-10px);
+ }
 }
 
 .title {
