@@ -6,8 +6,6 @@ on:
       - CI (client)
     types:
       - completed
-    branches:
-      - main
 
 permissions:
   contents: read
