@@ -1,0 +1,34 @@
+name: CD (server)
+
+on:
+  workflow_run:
+    workflows:
+      - CI (server)
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to Production
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    concurrency: deploy
+    timeout-minutes: 2
+
+    steps:
+      - name: Execute Deploy Script
+        uses: appleboy/ssh-action@v1.2.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          scripts: |
+            cd ${{ secrets.SSH_DIRECTORY }}
+            git reset --hard
+            git clean -d --force --quiet
+            git pull --quiet
+            cd server
+            docker compose up --build --detach
