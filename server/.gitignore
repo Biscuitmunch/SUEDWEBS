@@ -24,6 +24,3 @@ build
 *.sln
 *.sw?
 .env
-
-src/db/terraria.db
-src/db/terraria.db-journal

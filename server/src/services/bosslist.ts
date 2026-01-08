@@ -11,32 +11,25 @@ interface Boss {
   type: string;
 }
 
-let dbPath: string;
+const inDocker = process.argv.includes("--IN_DOCKER");
 
-if (process.argv.includes("--IN_DOCKER")) {
-  dbPath = path.join(
-    import.meta.dirname,
-    "..",
-    "..",
-    "docker_db",
-    "terraria.db"
-  );
+const dbPath = path.join(
+  import.meta.dirname,
+  "..",
+  "..",
+  "..",
+  inDocker ? "docker_db" : "db",
+  "terraria.db"
+);
 
-  if (!existsSync(dbPath)) {
-    // we can't do a create outside of Docker because if the user is running in
-    // dev (which has hot reloading) we get an infinite reload loop
-    writeFileSync(dbPath, "", "utf-8");
-  }
-} else {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
-  dbPath = path.join(__dirname, "..", "db", "terraria.db");
+if (!existsSync(dbPath)) {
+  writeFileSync(dbPath, "", "utf-8");
 }
 
 const db = new DatabaseSync(dbPath);
 
 const rawSql = readFileSync(
-  join(import.meta.dirname, "..", "db", "tables", "bosslist.sql"),
+  join(import.meta.dirname, "..", "..", "..", "db", "tables", "bosslist.sql"),
   "utf-8"
 );
 
