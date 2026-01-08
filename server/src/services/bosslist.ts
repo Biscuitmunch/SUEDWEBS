@@ -10,10 +10,23 @@ interface Boss {
 import { DatabaseSync } from "node:sqlite";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { existsSync, writeFileSync } from "node:fs";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const dbPath = path.join(__dirname, "..", "db", "terraria.db");
+let dbPath: string;
+
+if (process.argv.includes('--IN_DOCKER')) {
+  dbPath = path.join(import.meta.dirname, "..", "..", "docker_db", "terraria.db");
+
+  if (!existsSync(dbPath)) {
+    // we can't do a create outside of Docker because if the user is running in
+    // dev (which has hot reloading) we get an infinite reload loop
+    writeFileSync(dbPath, '', 'utf-8');
+  }
+} else {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  dbPath = path.join(__dirname, "..", "db", "terraria.db");
+}
 
 const db = new DatabaseSync(dbPath);
 

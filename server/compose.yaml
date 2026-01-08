@@ -1,0 +1,17 @@
+# https://docs.docker.com/compose/compose-file/
+name: suedwebs
+
+services:
+  server:
+    build: .
+    env_file: .env
+    ports:
+      - ${API_PORT}:3000
+    restart: ${RESTART_POLICY}
+    mem_limit: ${HARD_MEMORY_LIMIT}
+    mem_reservation: ${SOFT_MEMORY_LIMIT}
+    volumes:
+      - sqlite_data:/usr/src/app/docker_db
+
+volumes:
+  sqlite_data:
