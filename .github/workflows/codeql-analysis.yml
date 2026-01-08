@@ -3,7 +3,6 @@ name: "CodeQL"
 
 on:
   - push
-  - pull_request
 
 permissions:
   security-events: write
