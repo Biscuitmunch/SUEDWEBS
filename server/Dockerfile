@@ -15,5 +15,4 @@ RUN npm ci --omit=dev
 ENV NODE_ENV=production
 
 # Run
-USER node
-ENTRYPOINT [ "node", "." ]
+ENTRYPOINT [ "node", ".", "--IN_DOCKER" ]
