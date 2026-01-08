@@ -43,5 +43,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_PAGES_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist/ --project-name=SUEDWEBS
+          command: pages deploy dist/ --project-name=suedwebs
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
