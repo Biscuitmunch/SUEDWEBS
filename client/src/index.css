@@ -25,6 +25,9 @@ body {
 
   background-color: var(--ctp-base);
   color: var(--ctp-text);
+
+  position:absolute;
+  z-index:-99;
 }
 
 #root {

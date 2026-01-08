@@ -3,16 +3,103 @@
   flex-direction: row;
   padding: 1rem;
   margin-top: 3rem;
-  border: 5px solid var(--ctp-surface0);
-  border-radius: 3rem;
+  border: 0.313rem solid var(--ctp-surface0);
+  background: var(--ctp-mantle);
+  border-radius: 48px;
+  aspect-ratio: 7.5;
+  position: relative;
+}
+
+.bossTitleCard {
+  margin-top: 3.313rem;
+  margin-bottom: 0.313rem;
+  border: none;
+}
+
+@property --angle{
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.bossTitleCard::after, .bossTitleCard::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: white;
+  background-image: conic-gradient(from var(--angle), var(--ctp-surface0) 25%, var(--ctp-red), var(--ctp-surface0));
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: -1;
+  padding: 5px;
+  border-radius: 53px;
+  animation: 6s spin linear infinite;
+}
+
+.bossTitleCard::before{
+  filter: blur(1.5rem);
+  opacity: 0.4;
+}
+
+/* Calculated based on (fixed) aspect ratio. */
+@keyframes spin{
+  0% {
+    --angle: 0deg;
+  }
+  19.85% {
+    --angle: 75.07deg;
+  }
+  22.06% {
+    --angle: 82.41deg;
+  }
+  25% {
+    --angle: 90deg;
+  }
+  27.94% {
+    --angle: 97.59deg;
+  }
+  30.15% {
+    --angle: 104.93deg;
+  }
+  50% {
+    --angle: 180deg;
+  }
+  69.85% {
+    --angle: 255.07deg;
+  }
+  72.06% {
+    --angle: 262.41deg;
+  }
+  75% {
+    --angle: 270deg;
+  }
+  77.94% {
+    --angle: 277.59deg;
+  }
+  80.15% {
+    --angle: 284.93deg;
+  }
+  100% {
+    --angle: 360deg;
+  }
+}
+
+.bossSkull {
+  background-image: url(../assets/pixelskull.png);
+  background-repeat: no-repeat;
 }
 
 .title {
   display: flex;
   flex-direction: row;
+  overflow: hidden;
   text-align: center;
   font-size: 3rem;
+  font-size: 2.5vw;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .verticalRule {
@@ -38,3 +125,4 @@
   margin-top: 0.5rem;
   margin-bottom: 1rem;
 }
+

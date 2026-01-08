@@ -25,7 +25,7 @@ function Countdown() {
 
   // For testing hypothetical boss timers.
   const future = useMemo(() => {
-    return now.add(1, "day").add(2, "hour").add(1, "minute").add(8, "second");
+    return now.add(0, "day").add(0, "hour").add(0, "minute").add(8, "second");
   }, []);
 
   useEffect(() => {
@@ -66,11 +66,26 @@ function Countdown() {
     return formattedCountdown;
   }
 
+  // Safety?
+  useEffect(() => {
+    if (nextBossDateTime !== undefined) {
+      const titleCard = document.getElementById("titleCard");
+      // const title = document.getElementById("title");
+      if (nextBossDateTime?.unix() <= now.unix()) {
+        titleCard?.classList.add(styles.bossTitleCard);
+        // title?.setAttribute("style", "opacity: 0;");
+      } else {
+        titleCard?.classList.remove(styles.bossTitleCard);
+        // title?.setAttribute("style", "opacity: 1;");
+      }
+    }
+  }, [getFormattedCountdown]);
+
   return (
     <>
-      <div className={styles.titleCard}>
+      <div id="titleCard" className={styles.titleCard}>
         {nextBosses !== undefined ? (
-          <div className={styles.title}>
+          <div id="title" className={styles.title}>
             {nextBosses?.map((boss, i) => (
               <div key={boss.name} style={{ display: "flex" }}>
                 {i !== 0 && <hr className={styles.verticalRule} />}
@@ -83,7 +98,10 @@ function Countdown() {
         )}
       </div>
       <div className={styles.timer}>
-        {nextBossDateTime !== undefined && <div>{getFormattedCountdown()}</div>}
+        {nextBossDateTime !== undefined &&
+          nextBossDateTime?.unix() > now.unix() && (
+            <div>{getFormattedCountdown()}</div>
+          )}
         {nextBossDateTime !== undefined &&
           nextBossDateTime.unix() <= now.unix() && <div>Boss Time!</div>}
       </div>
