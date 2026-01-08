@@ -1,0 +1,47 @@
+name: CD (client)
+
+on:
+  workflow_run:
+    workflows:
+      - CI (client)
+    types:
+      - completed
+
+permissions:
+  contents: read
+  deployments: write
+
+defaults:
+  run:
+    working-directory: client
+
+jobs:
+  deploy:
+    name: Deploy to Production
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    concurrency: deploy
+    timeout-minutes: 2
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.x
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Static Site
+        run: npm run build
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_PAGES_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist/ --project-name=SUEDWEBS
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
