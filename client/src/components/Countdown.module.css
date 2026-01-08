@@ -1,3 +1,40 @@
+.titleCard {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  margin-top: 3rem;
+  border: 5px solid var(--ctp-surface0);
+  border-radius: 3rem;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 600;
+}
+
+.verticalRule {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  background-color: var(--ctp-surface0);
+  border: none;
+  height: 5rem;
+  width: 5px;
+}
+
+.bossName {
+  color: var(--ctp-red);
+}
+
 .timer {
   display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
 }

@@ -3,7 +3,7 @@ import styles from "./BossList.module.css";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-interface Boss {
+export interface Boss {
   name: string;
   note?: string;
   date?: string;
@@ -20,16 +20,19 @@ function handleClickSpoilerText(e: React.MouseEvent<HTMLDivElement>): void {
   }
 }
 
-function BossList() {
-  const [bosses, setBosses] = useState<Boss[] | null>(null);
-
-  const [isShowingAll, setIsShowingAll] = useState(false);
-
+export function useFetchBossList(setBosses: (bosses: Boss[] | null) => void) {
   useEffect(() => {
     fetch(`${BASE_URL}/bosslist`)
       .then((response) => response.json())
       .then(setBosses);
   }, []);
+}
+
+function BossList() {
+  const [isShowingAll, setIsShowingAll] = useState(false);
+  const [bosses, setBosses] = useState<Boss[] | null>(null);
+
+  useFetchBossList(setBosses);
 
   const handleShowAll = useCallback(() => {
     const allElements = document.querySelectorAll(".future");
