@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import styles from "./Countdown.module.css";
 import type { Boss } from "./BossList.tsx";
-import { useFetchBossList } from "./BossList.tsx";
 import { BASE_URL } from "../constants";
 
 function Countdown() {
@@ -28,7 +27,11 @@ function Countdown() {
       .then((timestamp) => setNextBossDateTime(dayjs.unix(timestamp)));
   }, []);
 
-  useFetchBossList(setBosses);
+  useEffect(() => {
+    fetch(`${BASE_URL}/bosslist`)
+      .then((response) => response.json())
+      .then(setBosses);
+  }, []);
 
   const nextBosses = useMemo(() => {
     return bosses?.filter((boss) => boss.type === "current");

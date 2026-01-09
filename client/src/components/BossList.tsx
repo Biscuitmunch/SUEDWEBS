@@ -19,19 +19,15 @@ function handleClickSpoilerText(e: React.MouseEvent<HTMLDivElement>): void {
   }
 }
 
-export function useFetchBossList(setBosses: (bosses: Boss[] | null) => void) {
+function BossList() {
+  const [isShowingAll, setIsShowingAll] = useState(false);
+  const [bosses, setBosses] = useState<Boss[] | null>(null);
+
   useEffect(() => {
     fetch(`${BASE_URL}/bosslist`)
       .then((response) => response.json())
       .then(setBosses);
   }, []);
-}
-
-function BossList() {
-  const [isShowingAll, setIsShowingAll] = useState(false);
-  const [bosses, setBosses] = useState<Boss[] | null>(null);
-
-  useFetchBossList(setBosses);
 
   const handleShowAll = useCallback(() => {
     const allElements = document.querySelectorAll(".future");
