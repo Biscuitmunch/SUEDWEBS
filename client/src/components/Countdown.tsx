@@ -25,9 +25,6 @@ function Countdown() {
     fetch(`${BASE_URL}/nextbosstime`)
       .then((response) => response.json())
       .then((timestamp) => setNextBossDateTime(dayjs.unix(timestamp)));
-  }, []);
-
-  useEffect(() => {
     fetch(`${BASE_URL}/bosslist`)
       .then((response) => response.json())
       .then(setBosses);
