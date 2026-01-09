@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
     "dev": "tsx --watch-path=src src/index.ts",
-    "build": "tsc",
+    "build": "tsc && mkdir -p build/db/tables && cp db/tables/*.sql build/db/tables",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

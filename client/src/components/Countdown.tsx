@@ -3,8 +3,7 @@ import dayjs from "dayjs";
 import styles from "./Countdown.module.css";
 import type { Boss } from "./BossList.tsx";
 import { useFetchBossList } from "./BossList.tsx";
-
-const BASE_URL = import.meta.env.VITE_API_URL;
+import { BASE_URL } from "../constants";
 
 function Countdown() {
   const [nextBossDateTime, setNextBossDateTime] = useState<

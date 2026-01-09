@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import styles from "./BossList.module.css";
-
-const BASE_URL = import.meta.env.VITE_API_URL;
+import { BASE_URL } from "../constants";
 
 export interface Boss {
   name: string;

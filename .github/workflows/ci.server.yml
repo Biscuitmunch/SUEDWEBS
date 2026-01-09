@@ -1,0 +1,31 @@
+name: CI (server)
+
+on:
+  push:
+    paths-ignore:
+      - client/**
+
+defaults:
+  run:
+    working-directory: server
+
+jobs:
+  build:
+    name: Node
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.x
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --project tsconfig.json --noEmit

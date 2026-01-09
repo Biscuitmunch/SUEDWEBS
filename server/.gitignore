@@ -25,5 +25,5 @@ build
 *.sw?
 .env
 
-src/db/terraria.db
-src/db/terraria.db-journal
+*.db
+*.db-journal
