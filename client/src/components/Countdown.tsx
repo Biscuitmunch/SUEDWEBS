@@ -11,7 +11,6 @@ function Countdown() {
   >();
   const [now, setNow] = useState(dayjs());
   const [bosses, setBosses] = useState<Boss[] | null>(null);
-  const [bossFight, setBossFight] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -23,23 +22,23 @@ function Countdown() {
     };
   }, []);
 
-  // For testing hypothetical boss timers.
-  const future = useMemo(() => {
-    return now.add(0, "day").add(0, "hour").add(0, "minute").add(4, "second");
-  }, []);
-
   useEffect(() => {
     fetch(`${BASE_URL}/nextbosstime`)
       .then((response) => response.json())
-      .then((timestamp) => setNextBossDateTime(dayjs.unix(timestamp)))
-      .then(() => setNextBossDateTime(future)); // Testing
-  }, [future]); // future dependency for testing only.
+      .then((timestamp) => setNextBossDateTime(dayjs.unix(timestamp)));
+  }, []);
 
   useFetchBossList(setBosses);
 
   const nextBosses = useMemo(() => {
     return bosses?.filter((boss) => boss.type === "current");
   }, [bosses]);
+
+  const bossFight = useMemo(() => {
+    return (
+      nextBossDateTime !== undefined && now.unix() >= nextBossDateTime.unix()
+    );
+  }, [now, nextBossDateTime]);
 
   function getFormattedCountdown() {
     if (nextBossDateTime === undefined) return "";
@@ -66,50 +65,43 @@ function Countdown() {
     return formattedCountdown;
   }
 
-  // Safety?
-  useEffect(() => {
-    if (nextBossDateTime !== undefined) {
-      if (nextBossDateTime?.unix() <= now.unix()) {
-        setBossFight(true);
-      }
-    }
-  }, [getFormattedCountdown]);
-
-  useEffect(() => {
-    if (bossFight === true) {
-      const titleCard = document.getElementById("titleCard");
-      titleCard?.classList.add(styles.bossTitleCard);
-      placeBossSkulls();
-    }
-  }, [bossFight]);
-
   const sleep = (ms: number) => {
     return new Promise((resolve) => setTimeout(resolve, ms));
   };
 
-  async function placeBossSkulls() {
-    let skullCount = 0;
-    const skullContainer = document.getElementById("bossSkullContainer");
-    nextBosses?.map((boss) => {
-      if (boss.note?.toLowerCase().includes("event")) {
-        skullCount += 1;
-      } else if (boss.note?.toLowerCase().includes("half")) {
-        skullCount += 2;
-      } else if (boss.note?.toLowerCase().includes("longer")) {
-        skullCount += 5;
-      } else {
-        skullCount += 3;
-      }
-    });
-    for (let i = 0; i < skullCount; i++) {
-      const skull = document.createElement("div");
-      skull.classList.add(styles.bossSkull);
-      skullContainer?.appendChild(skull);
-      await sleep(500);
+  useEffect(() => {
+    if (bossFight === true) {
+      const placeBossSkulls = async () => {
+        let skullCount = 0;
+        const skullContainer = document.getElementById("bossSkullContainer");
+        nextBosses?.map((boss) => {
+          if (boss.note?.toLowerCase().includes("event")) {
+            skullCount += 1;
+          } else if (boss.note?.toLowerCase().includes("half")) {
+            skullCount += 2;
+          } else if (boss.note?.toLowerCase().includes("longer")) {
+            skullCount += 5;
+          } else {
+            skullCount += 3;
+          }
+        });
+        for (let i = 0; i < skullCount; i++) {
+          const skull = document.createElement("div");
+          skull.classList.add(styles.bossSkull);
+          skullContainer?.appendChild(skull);
+          await sleep(500);
+        }
+        await sleep(1500); // Allow time for the skulls to move before rendering text.
+        document
+          .getElementById("bossText")
+          ?.setAttribute("style", "opacity: 1");
+      };
+
+      const titleCard = document.getElementById("titleCard");
+      titleCard?.classList.add(styles.bossTitleCard);
+      placeBossSkulls();
     }
-    await sleep(1500); // Allow time for the skulls to move before rendering text.
-    document.getElementById("bossText")?.setAttribute("style", "opacity: 1");
-  }
+  }, [bossFight, nextBosses]);
 
   return (
     <>
