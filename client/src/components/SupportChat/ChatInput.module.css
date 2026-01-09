@@ -1,0 +1,43 @@
+.inputContainer {
+  padding: 1rem;
+  border-top: 2px solid var(--ctp-text);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.input {
+  flex: 1;
+  padding: 0.2rem 0.5rem;
+  background-color: var(--ctp-surface2);
+  border: 1px solid var(--ctp-surface0);
+  border-radius: 1rem;
+  color: var(--ctp-text);
+}
+
+.input::placeholder {
+  color: var(--ctp-overlay2);
+}
+
+.input:focus {
+  background-color: var(--ctp-surface1);
+}
+
+.inputButton {
+  background-color: var(--ctp-surface0);
+  color: var(--ctp-text);
+  padding: 0.5rem;
+}
+
+.inputButton:hover {
+  background-color: var(--ctp-surface1);
+}
+
+.inputButton:enabled:active {
+  transform: translateY(0.15rem);
+}
+
+.inputButton:disabled {
+  background-color: var(--ctp-base);
+  color: var(--ctp-surface2);
+  cursor: not-allowed;
+}
