@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { MLCEngine } from '@mlc-ai/web-llm';
 import styles from './Chat.module.css';
-import { MsgSenders } from '../../Util';
+import { MsgSenders } from './Util';
 import MessageArea from './MessageArea';
 import ChatInput from './ChatInput';
 
 import type { InitProgressReport, ChatOptions, ChatCompletionMessageParam } from '@mlc-ai/web-llm';
-import type { Message } from '../../Util';
+import type { Message } from './Util';
 
 //Set modelname, options, system prompt (should move to config file)======
 const systemPromptText = `
@@ -21,7 +21,7 @@ const systemPrompt: Message = {
   role: MsgSenders.system,
   time: new Date(),
 };
-const modelName: string = 'Llama-3.2-1B-Instruct-q4f32_1-MLC';
+const modelName: string = 'Llama-3.2-3B-Instruct-q4f32_1-MLC';
 const modelOptions: ChatOptions = {
   temperature: 1.0,
   top_p: 1,

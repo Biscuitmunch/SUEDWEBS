@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { MsgSenders } from '../../Util';
-import type { Message } from '../../Util';
+import { MsgSenders } from './Util';
+import type { Message } from './Util';
 import styles from './MessageArea.module.css';
 
 interface MessageAreaProps {
