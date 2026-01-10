@@ -1,0 +1,47 @@
+.chatContainer {
+  position: fixed;
+  bottom: 0.5rem;
+  right: 0.5rem;
+}
+
+.chatWindow {
+  width: 30rem;
+  height: 50rem;
+  background-color: var(--ctp-mantle);
+  border: 0.2rem solid var(--ctp-surface0);
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: absolute;
+  bottom: 4rem;
+  right: 0;
+}
+
+.header {
+  background-color: var(--ctp-mantle);
+  padding: 1rem;
+}
+
+.headerTitle {
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.headerSubtitle {
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.chatButton {
+  background-color: var(--ctp-overlay0);
+  color: var(--ctp-text);
+  border-radius: 5rem;
+  border: 0.2rem solid var(--ctp-surface0);
+}
+
+.chatButton:hover {
+  background-color: var(--ctp-overlay2);
+  transform: scale(1.1);
+}
