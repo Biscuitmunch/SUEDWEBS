@@ -1,8 +1,9 @@
 .bossHalo {
   display: flex;
   flex-direction: row;
-  width: 40rem;
-  padding: 1.2rem;
+  width: 50%;
+  min-width: 25rem;
+  padding: 1rem;
   margin-top: 3rem;
   justify-content: center;
   align-items: center;
@@ -96,13 +97,11 @@
   border-radius: 48px;
   width: inherit;
   height: inherit;
+  justify-content: center;
   min-height: 100%;
   min-width: 100%;
-  padding: 0.6rem;
-  justify-content: center;
-  flex-grow: 1;
+  padding: 0.3vw;
   gap: 1rem;
-  white-space: nowrap;
 }
 
 .bossSkull {
@@ -110,8 +109,8 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  min-height: 80%;
-  min-width: 10%;
+  min-height: 100%;
+  min-width: 8%;
   justify-items: center;
   animation: slam 1.2s ease-in-out;
 }
@@ -135,29 +134,55 @@
   }
 }
 
-.title {
+.titleBox {
   display: flex;
   flex-direction: row;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
   text-align: center;
-  font-family: Cambria, Helvetica, Arial;
-  font-size: 2.7rem;
-  font-weight: 600;
   align-self: center;
-  white-space: nowrap;
+  justify-content: center;
+  aspect-ratio: 7.5;
   position: relative;
 }
 
+/* Necessary for line clamping to work correctly */
+.flexContainer {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  height: inherit;                                    
+}
+
 .verticalRule {
-  margin: 0 1rem;
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  margin: 0 0.75vw;
   background-color: var(--ctp-surface0);
   border: none;
-  height: 5rem;
-  width: 5px;
+  height: 100%;
+  width: 0.75vw;
+}
+
+.bossNameContainer {
+  display: flex;
+  flex-grow: 1;
+  padding: 0 0.5rem 0 0.5rem;
 }
 
 .bossName {
+  display: -webkit-box;
+  flex: 1;
   color: var(--ctp-peach);
+  font-family: Cambria, Helvetica, Arial;
+  font-size: calc(0.4rem + 2vw); 
+  font-weight: 600;
+  overflow: hidden;
+  word-break: break-word;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .timer {

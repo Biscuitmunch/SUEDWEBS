@@ -52,12 +52,6 @@ try {
   query = db.prepare("SELECT * FROM bosslist");
 }
 
-// Empty boss list for testing.
-// export function bosslist(req: Request, res: Response) {
-//   const bosses: Boss[] = [];
-//   res.json(bosses);
-// }
-
 export function bosslist(req: Request, res: Response) {
   const bosses: Boss[] = query.all() as unknown as Boss[]; // Idk how to make this type safe...
   res.json(bosses);
