@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import styles from "./Countdown.module.css";
 import type { Boss } from "./BossList.tsx";
 import { BASE_URL } from "../constants";
+// import bossSound from "./public";
 
 function Countdown() {
     const [nextBossDateTime, setNextBossDateTime] = useState<
@@ -95,6 +96,10 @@ function Countdown() {
 
     useEffect(() => {
         if (nextBosses !== null && bossFight) {
+            function playBossSound() {
+                new Audio("/bossSound.mp3").play();
+            }
+
             const bossHalo = document.getElementById("bossHalo");
             if (bossHalo) {
                 bossHalo.style.setProperty("--halo-colour", "var(--ctp-red)");
@@ -128,7 +133,10 @@ function Countdown() {
                     }
                     return nextCount;
                 });
-                if (skullCounter < skullCount) placeBossSkull(); // it's beautiful :.>
+                if (skullCounter < skullCount) {
+                    placeBossSkull();
+                    playBossSound();
+                } // it's beautiful :.>
             }, 1200);
 
             const timeout = setTimeout(() => {
