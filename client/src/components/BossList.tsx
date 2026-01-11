@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import styles from "./BossList.module.css";
 import { BASE_URL } from "../constants";
 
-interface Boss {
+export interface Boss {
   name: string;
   note?: string;
   date?: string;
@@ -20,9 +20,8 @@ function handleClickSpoilerText(e: React.MouseEvent<HTMLDivElement>): void {
 }
 
 function BossList() {
-  const [bosses, setBosses] = useState<Boss[] | null>(null);
-
   const [isShowingAll, setIsShowingAll] = useState(false);
+  const [bosses, setBosses] = useState<Boss[] | null>(null);
 
   useEffect(() => {
     fetch(`${BASE_URL}/bosslist`)
