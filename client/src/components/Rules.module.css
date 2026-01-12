@@ -1,18 +1,28 @@
 .title {
+  font-family: Cambria, Helvetica, Arial;
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 3rem;
+  letter-spacing: 0.5ch;
+  color: var(--ctp-red);
   text-transform: uppercase;
-  padding-bottom: 1rem;
 }
 
 .rulesContainer {
   display: flex;
-  padding: 1rem;
+  padding: 0 2rem 1rem 0;
+  margin: 0 calc(1rem + 1vw) 0 calc(1rem + 1vw);
   background-color: var(--ctp-mantle);
   border: 5px solid var(--ctp-surface0);
   border-radius: 3rem;
 }
 
-.bulletedList {
-  text-align: left;
+li {
+  list-style: none;
+  background-image: url(/calamitybullet.png);
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: 1.5rem;
+  padding-left: 2rem;
+  margin-top: 0.8rem;
+  text-align: left top;
 }
