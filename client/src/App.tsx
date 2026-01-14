@@ -6,6 +6,7 @@ import Countdown from './components/Countdown';
 import BossList from './components/BossList';
 import Rules from './components/Rules';
 import Chat from './components/SupportChat/Chat';
+import Links from './components/Links';
 
 extend(relativeTime);
 extend(duration);
@@ -17,6 +18,7 @@ function App() {
       <BossList />
       <Rules />
       <Chat />
+      <Links />
     </>
   );
 }
