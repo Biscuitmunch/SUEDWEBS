@@ -1,0 +1,48 @@
+.linkArea {
+    display: flex;
+    margin-top: 2.5rem;
+    margin-bottom: 6rem;
+    gap: 3vw;
+}
+
+.linkBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.imgContainer img {
+    width: auto;
+    height: 5vw;
+    min-height: 2.5rem;
+}
+
+.terraria, .terraria:visited {
+    text-decoration: none;
+    color: var(--ctp-green);
+}
+
+.terraria:hover, .terraria:focus, .terraria:active {
+    text-decoration: underline;
+    color: var(--ctp-yellow);
+}
+
+.calamity, .calamity:visited {
+    text-decoration: none;
+    color: var(--ctp-red);
+}
+
+.calamity:hover, .calamity:focus, .calamity:active {
+    text-decoration: underline;
+    color: var(--ctp-peach);
+}
+
+.fargos, .fargos:visited {
+    text-decoration: none;
+    color: var(--ctp-teal);
+} 
+
+.fargos:hover, .fargos:focus, .fargos:active {
+    text-decoration: underline;
+    color: var(--ctp-blue);
+}
