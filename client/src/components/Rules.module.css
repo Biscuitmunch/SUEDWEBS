@@ -7,7 +7,7 @@
   text-transform: uppercase;
 }
 
-.bulletedList {
+.rulesContainer {
   text-align: left;
   display: flex;
   padding: 0 2rem 1rem 0;
