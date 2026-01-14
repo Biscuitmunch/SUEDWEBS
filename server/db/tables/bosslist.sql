@@ -57,7 +57,7 @@ INSERT INTO bosslist (name, note, date, type) VALUES
 ('Eridanus', NULL, NULL, 'future'),
 ('Yharon', NULL, NULL, 'future'),
 ('Abominationn', NULL, NULL, 'future'),
-('Exo Mechs', NULL, NULL, 'future'),
-('Supreme Calamitas', NULL, NULL, 'future'),
+('Exo Mechs', 'Longer Session', NULL, 'future'),
+('Supreme Calamitas', 'Longer Session', NULL, 'future'),
 ('Mutant', 'Longer Session', NULL, 'future'),
 ('Boss Rush', 'Longer Session', NULL, 'future');
