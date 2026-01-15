@@ -1,0 +1,11 @@
+Configs: {
+	BossRespawnConfig: {
+		DisplayName: Boss Respawn Config
+		Headers.Respawn_Times_Seconds: Set Respawn Timers
+
+		BossRespawnTime: {
+			Label: Boss Respawn Time
+			Tooltip: Sets the respawn timer for players during boss fights.
+		}
+	}
+}

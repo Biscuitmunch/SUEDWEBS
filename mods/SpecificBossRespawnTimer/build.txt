@@ -1,0 +1,4 @@
+displayName = Specific Boss Respawn Timer
+author = Biscuitmunch
+version = 0.1
+modReferences = CalamityMod
