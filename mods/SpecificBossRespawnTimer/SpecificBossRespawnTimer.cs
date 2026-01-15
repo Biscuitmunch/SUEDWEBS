@@ -18,6 +18,7 @@ namespace SpecificBossRespawnTimer
         [Header("Respawn_Times_Seconds")]
         [DefaultValue(90)]
         [Range(0, 3600)]
+        [ReloadRequired]
         public int BossRespawnTime;
     }
 
