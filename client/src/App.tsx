@@ -7,6 +7,7 @@ import BossList from './components/BossList';
 import Rules from './components/Rules';
 import Chat from './components/SupportChat/Chat';
 import Links from './components/Links';
+import DeathCount from './components/DeathCount';
 
 extend(relativeTime);
 extend(duration);
@@ -15,6 +16,7 @@ function App() {
   return (
     <>
       <Countdown />
+      <DeathCount />
       <BossList />
       <Rules />
       <Chat />
