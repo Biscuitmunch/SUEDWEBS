@@ -53,10 +53,17 @@ try {
   `);
 }
 
-export function deathcount(req: Request, res: Response) {
+export function putDeathCount(req: Request, res: Response) {
   const data: PlayerData = req.body;
 
   query.run(data.playerName, data.playerDeaths, data.playerDeaths);
 
   return res.json();
+}
+
+export function getDeathCount(req: Request, res: Response) {
+  const stmt = db.prepare('SELECT * FROM deathcount;');
+  const rows: PlayerData[] = stmt.all() as unknown as PlayerData[];
+
+  return res.json(rows);
 }
