@@ -1,16 +1,34 @@
 .gridContainer {
     background-color: var(--ctp-mantle);
+    border: 5px solid var(--ctp-surface0);
     padding: 2rem;
+    text-align: center;
 }
 
 .grid {
     display: grid;
-    grid-auto-flow: column;
+    grid-auto-flow: row;
     grid-template-columns: auto auto;
     overflow-y: auto;
-    background: var(--ctp-surface0);
-    gap: 5px;
+    background-color: var(--ctp-surface0);
+    gap: 3px;
     border: 5px solid var(--ctp-surface0);
+}
+
+.gridHeaders {
+    display: flex;
+    background-color: var(--ctp-crust);
+    align-items: end;
+    text-align: left;
+    padding: 0.3rem 0 0 0.2rem;
+    gap: 0.5rem;
+}
+
+.ascDescButton {
+    box-sizing: content-box;
+    background-color: var(--ctp-sky);
+    margin-bottom: 0.3rem;
+    /* Not sure why but minimum size not working */
 }
 
 .playerItem {
@@ -22,9 +40,13 @@
 .playerName {
     grid-column: 1;
     background-color: var(--ctp-base);
+    text-align: left;
+    padding: 0.1rem 0 0 0.2rem;
 }
 
 .playerDeaths {
     grid-column: 2;
     background-color: var(--ctp-base);
+    text-align: left;
+    padding: 0.1rem 0 0 0.2rem;
 }

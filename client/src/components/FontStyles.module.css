@@ -1,0 +1,15 @@
+.title, .title2 {
+  font-family: Cambria, Helvetica, Arial;
+  font-weight: bold;
+  letter-spacing: 0.5ch;
+  color: var(--ctp-red);
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: 3rem;
+}
+
+.title2 {
+  font-size: 1.5rem;
+}
