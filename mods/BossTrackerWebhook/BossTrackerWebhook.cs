@@ -65,7 +65,7 @@ namespace BossTrackerWebhook
 
                 var json = $"{{\"bossName\":\"{bossName}\",\"bossKills\":{slainCount}}}";
 
-                mod.Logger.Info($"[DeathWebhook] PUT body: {json}");
+                BossTrackerWebhook.Instance.Logger.Info($"[BossWebhook] PUT body: {json}");
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
