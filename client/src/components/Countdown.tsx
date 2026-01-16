@@ -1,14 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
-import dayjs from "dayjs";
-import styles from "./Countdown.module.css";
-import type { Boss } from "./BossList.tsx";
-import { BASE_URL } from "../constants";
+import { useEffect, useMemo, useState } from 'react';
+import dayjs from 'dayjs';
+import styles from './Countdown.module.css';
+import type { Boss } from './Trackers/BossList.tsx';
+import { BASE_URL } from '../constants';
 // import bossSound from "./public";
 
 function Countdown() {
-  const [nextBossDateTime, setNextBossDateTime] = useState<
-    dayjs.Dayjs | undefined
-  >();
+  const [nextBossDateTime, setNextBossDateTime] = useState<dayjs.Dayjs | undefined>();
   const [now, setNow] = useState(dayjs());
   const [bosses, setBosses] = useState<Boss[] | undefined>(undefined); // Expects to receive [] for zero bosses.
   const [skullCounter, setSkullCounter] = useState(0);
@@ -41,48 +39,44 @@ function Countdown() {
     if (bosses !== undefined && bosses.length === 0) {
       return null;
     }
-    return bosses?.filter((boss) => boss.type === "current");
+    return bosses?.filter((boss) => boss.type === 'current');
   }, [bosses]);
 
   const bossFight = useMemo(() => {
-    return (
-      nextBossDateTime !== undefined && now.unix() >= nextBossDateTime.unix()
-    );
+    return nextBossDateTime !== undefined && now.unix() >= nextBossDateTime.unix();
   }, [now, nextBossDateTime]);
 
   function getFormattedCountdown() {
-    if (nextBossDateTime === undefined) return "";
+    if (nextBossDateTime === undefined) return '';
     const timeUntilBoss = dayjs.duration(nextBossDateTime.diff(now));
 
     const timeUnits = [
-      { duration: timeUntilBoss.days(), denomination: "day" },
-      { duration: timeUntilBoss.hours(), denomination: "hour" },
-      { duration: timeUntilBoss.minutes(), denomination: "minute" },
-      { duration: timeUntilBoss.seconds(), denomination: "second" },
+      { duration: timeUntilBoss.days(), denomination: 'day' },
+      { duration: timeUntilBoss.hours(), denomination: 'hour' },
+      { duration: timeUntilBoss.minutes(), denomination: 'minute' },
+      { duration: timeUntilBoss.seconds(), denomination: 'second' },
     ];
 
-    const leadingDenominationIndex = timeUnits.findIndex(
-      (unit) => unit.duration > 0
-    );
+    const leadingDenominationIndex = timeUnits.findIndex((unit) => unit.duration > 0);
     const formattedCountdown = timeUnits
       .slice(leadingDenominationIndex)
       .map((unit) => {
         return `${unit.duration} ${
-          unit.duration === 1 ? unit.denomination : unit.denomination + "s"
+          unit.duration === 1 ? unit.denomination : unit.denomination + 's'
         }`;
       })
-      .join(", ");
+      .join(', ');
     return formattedCountdown;
   }
 
   const skullCount = useMemo(() => {
     let skullCount = 0;
     nextBosses?.map((boss) => {
-      if (boss.note?.toLowerCase().includes("event")) {
+      if (boss.note?.toLowerCase().includes('event')) {
         skullCount += 1;
-      } else if (boss.note?.toLowerCase().includes("half")) {
+      } else if (boss.note?.toLowerCase().includes('half')) {
         skullCount += 2;
-      } else if (boss.note?.toLowerCase().includes("longer")) {
+      } else if (boss.note?.toLowerCase().includes('longer')) {
         skullCount += 5;
       } else {
         skullCount += 3;
@@ -94,18 +88,18 @@ function Countdown() {
   useEffect(() => {
     if (nextBosses !== null && bossFight) {
       function playBossSound() {
-        new Audio("/bossSound.mp3").play();
+        new Audio('/bossSound.mp3').play();
       }
 
-      const bossHalo = document.getElementById("bossHalo");
+      const bossHalo = document.getElementById('bossHalo');
       if (bossHalo) {
-        bossHalo.style.setProperty("--halo-colour", "var(--ctp-red)");
+        bossHalo.style.setProperty('--halo-colour', 'var(--ctp-red)');
       }
-      document.getElementById("titleBox")?.style.setProperty("width", "0"); // Set title width to zero to allow skulls to place correctly.
+      document.getElementById('titleBox')?.style.setProperty('width', '0'); // Set title width to zero to allow skulls to place correctly.
 
       const placeBossSkull = () => {
-        const bossTitleCard = document.getElementById("bossTitleCard");
-        const skull = document.createElement("div");
+        const bossTitleCard = document.getElementById('bossTitleCard');
+        const skull = document.createElement('div');
         skull.classList.add(styles.bossSkull);
         bossTitleCard?.appendChild(skull);
       };
@@ -114,13 +108,10 @@ function Countdown() {
         setSkullCounter((skullCounter: number) => {
           const nextCount = skullCounter + 1;
           if (bossHalo && nextCount > 1) {
-            bossHalo.classList.remove("spin");
+            bossHalo.classList.remove('spin');
             void bossHalo.offsetWidth; // Supposedly this is for reflow, not sure if needed.
-            bossHalo.style.setProperty(
-              "--animation-duration",
-              12 / (nextCount + 1) + "s"
-            );
-            bossHalo.classList.add("spin");
+            bossHalo.style.setProperty('--animation-duration', 12 / (nextCount + 1) + 's');
+            bossHalo.classList.add('spin');
           }
           if (nextCount > skullCount) {
             clearInterval(interval);
@@ -135,9 +126,7 @@ function Countdown() {
       }, 1200);
 
       const timeout = setTimeout(() => {
-        document
-          .getElementById("bossText")
-          ?.setAttribute("style", "opacity: 1");
+        document.getElementById('bossText')?.setAttribute('style', 'opacity: 1');
       }, 1500 + 500 * skullCount); // lmao
       return () => {
         clearInterval(interval);
@@ -171,16 +160,14 @@ function Countdown() {
         </div>
       </div>
       <div className={styles.timer}>
-        {nextBossDateTime !== undefined &&
-          nextBossDateTime.unix() > now.unix() && (
-            <div>{getFormattedCountdown()}</div>
-          )}
-        {nextBossDateTime !== undefined &&
-          nextBossDateTime.unix() <= now.unix() && (
-            <div id="bossText" style={{ opacity: 0 }}>
-              Boss Fight!
-            </div>
-          )}
+        {nextBossDateTime !== undefined && nextBossDateTime.unix() > now.unix() && (
+          <div>{getFormattedCountdown()}</div>
+        )}
+        {nextBossDateTime !== undefined && nextBossDateTime.unix() <= now.unix() && (
+          <div id="bossText" style={{ opacity: 0 }}>
+            Boss Fight!
+          </div>
+        )}
       </div>
     </>
   );

@@ -1,0 +1,15 @@
+.trackerContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100vw;
+    gap: 3vw;
+}
+
+.deathCount {
+    margin: 5rem 0 5rem 10vw;
+}
+
+.bossList {
+    padding: 1rem 0 1rem 0;
+}
+
