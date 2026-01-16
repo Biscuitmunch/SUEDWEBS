@@ -27,10 +27,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ${{ secrets.SSH_DIRECTORY }}
-            echo "doing git reset" 
-            git reset --hard origin/main
-            echo "doing git clean"
-            git clean -d --force
-            echo "cd"
+            git reset --hard --quiet
+            git clean -d --force --quiet
+            git pull --quiet
             cd server
-            # docker compose up --build --detach
+            docker compose up --build --detach
