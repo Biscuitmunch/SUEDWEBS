@@ -9,7 +9,7 @@ export interface Boss {
   note?: string;
   date?: string;
   type: string;
-  kills: number;
+  kills: string;
 }
 
 const inDocker = process.argv.includes('--IN_DOCKER');

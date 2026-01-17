@@ -102,7 +102,8 @@ namespace PlayerDeathWebhook
 
             try
             {
-                var json = $"{{\"playerName\":\"{playerName}\",\"playerDeaths\":{totalDeaths}}}";
+                var json =
+                    $"{{\"playerName\":\"{playerName}\",\"playerDeaths\":\"{totalDeaths}\"}}";
 
                 mod.Logger.Info($"[DeathWebhook] PUT body: {json}");
 

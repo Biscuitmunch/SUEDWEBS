@@ -12,7 +12,7 @@ dayjs.extend(utc);
 
 interface BossKillData {
   bossName: string;
-  bossKills: number;
+  bossKills: string;
 }
 
 const inDocker = process.argv.includes('--IN_DOCKER');
@@ -87,7 +87,8 @@ function updateNextBosses() {
 export function setBossKills(req: Request, res: Response) {
   const data: BossKillData = req.body;
 
-  if (data.bossKills === 0) {
+  // just in case
+  if (data.bossKills === '0') {
     return res.json();
   }
 

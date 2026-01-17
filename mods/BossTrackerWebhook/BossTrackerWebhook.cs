@@ -63,7 +63,7 @@ namespace BossTrackerWebhook
                     $"[BossWebhook] Sending PUT for {bossName} (Slain #{slainCount})"
                 );
 
-                var json = $"{{\"bossName\":\"{bossName}\",\"bossKills\":{slainCount}}}";
+                var json = $"{{\"bossName\":\"{bossName}\",\"bossKills\":\"{slainCount}\"}}";
 
                 BossTrackerWebhook.Instance.Logger.Info($"[BossWebhook] PUT body: {json}");
 

@@ -5,7 +5,7 @@ import path, { join } from 'node:path';
 
 interface PlayerData {
   playerName: string;
-  playerDeaths: number;
+  playerDeaths: string;
 }
 
 const inDocker = process.argv.includes('--IN_DOCKER');
