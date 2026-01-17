@@ -78,7 +78,15 @@ export function setBossKills(req: Request, res: Response) {
     return res.json();
   }
 
-  if (data.bossKills > 1) {
+  const existing = db
+    .prepare(
+      `
+    SELECT date FROM bosslist WHERE name = ?;
+  `
+    )
+    .get(data.bossName) as { date: string | null } | undefined;
+
+  if (existing?.date) {
     const query = db.prepare(`UPDATE bosslist SET kills=(?) WHERE name=(?);`);
     query.run(data.bossKills, data.bossName);
     return res.json();
