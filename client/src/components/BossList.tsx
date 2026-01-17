@@ -54,7 +54,7 @@ function BossList() {
               </div>
               {boss.note ? <div>({boss.note})</div> : <div />}
               {boss.date ? <div>{boss.date}</div> : <div />}
-              {boss.kills ? <div>{boss.kills}</div> : <div />}
+              {boss.kills ? <div>{Math.trunc(boss.kills)}</div> : <div />}
             </div>
           ))}
         </div>
