@@ -1,9 +1,14 @@
 import { Request, Response } from 'express';
-import { DatabaseSync, StatementSync } from 'node:sqlite';
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { DatabaseSync } from 'node:sqlite';
+import { existsSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { Boss } from './bosslist.js';
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone.js';
+import utc from 'dayjs/plugin/utc.js';
+
+dayjs.extend(timezone);
+dayjs.extend(utc);
 
 interface BossKillData {
   bossName: string;
