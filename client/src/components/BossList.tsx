@@ -1,21 +1,22 @@
-import { useCallback, useEffect, useState } from "react";
-import styles from "./BossList.module.css";
-import { BASE_URL } from "../constants";
+import { useCallback, useEffect, useState } from 'react';
+import styles from './BossList.module.css';
+import { BASE_URL } from '../constants';
 
 export interface Boss {
   name: string;
   note?: string;
   date?: string;
   type: string;
+  kills: number;
 }
 
 function handleClickSpoilerText(e: React.MouseEvent<HTMLDivElement>): void {
   const el = e.target as HTMLDivElement;
 
-  if (el.hasAttribute("clicked")) {
-    el.removeAttribute("clicked");
+  if (el.hasAttribute('clicked')) {
+    el.removeAttribute('clicked');
   } else {
-    el.setAttribute("clicked", "");
+    el.setAttribute('clicked', '');
   }
 }
 
@@ -30,12 +31,12 @@ function BossList() {
   }, []);
 
   const handleShowAll = useCallback(() => {
-    const allElements = document.querySelectorAll(".future");
+    const allElements = document.querySelectorAll('.future');
 
     if (isShowingAll) {
-      allElements.forEach((x) => x.removeAttribute("clicked"));
+      allElements.forEach((x) => x.removeAttribute('clicked'));
     } else {
-      allElements.forEach((x) => x.setAttribute("clicked", ""));
+      allElements.forEach((x) => x.setAttribute('clicked', ''));
     }
 
     setIsShowingAll((prev) => !prev);
@@ -48,25 +49,19 @@ function BossList() {
         <div>
           {bosses?.map((boss: Boss, index: number) => (
             <div key={index} className={styles.bossEntry}>
-              <div
-                className={`${boss.type} ${styles[boss.type]}`}
-                onClick={handleClickSpoilerText}
-              >
+              <div className={`${boss.type} ${styles[boss.type]}`} onClick={handleClickSpoilerText}>
                 {boss.name}
               </div>
-              {boss.note && <div>({boss.note})</div>}
-              {boss.date && <div>{boss.date}</div>}
+              {boss.note ? <div>({boss.note})</div> : <div />}
+              {boss.date ? <div>{boss.date}</div> : <div />}
+              {boss.kills ? <div>{boss.kills}</div> : <div />}
             </div>
           ))}
         </div>
       </div>
       <label className={styles.showAll}>
         <span>Show All</span>
-        <input
-          onChange={handleShowAll}
-          type="checkbox"
-          checked={isShowingAll}
-        />
+        <input onChange={handleShowAll} type="checkbox" checked={isShowingAll} />
       </label>
     </div>
   );
