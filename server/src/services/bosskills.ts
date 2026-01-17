@@ -32,6 +32,14 @@ if (!existsSync(dbPath)) {
 const db = new DatabaseSync(dbPath);
 
 function updateNextBosses() {
+  const currentCount = db
+    .prepare(`SELECT COUNT(*) as count FROM bosslist WHERE type = 'current';`)
+    .get() as { count: number };
+
+  if (currentCount.count > 0) {
+    return; // Don't update if there are still current bosses
+  }
+
   const nextBoss = db
     .prepare(
       `
