@@ -1,3 +1,3 @@
 displayName = Player Death Webhook
 author = Biscuitmunch
-version = 0.1
+version = 0.3
