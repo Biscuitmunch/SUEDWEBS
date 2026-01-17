@@ -7,7 +7,7 @@ export interface Boss {
   note?: string;
   date?: string;
   type: string;
-  kills: number;
+  kills: string;
 }
 
 function handleClickSpoilerText(e: React.MouseEvent<HTMLDivElement>): void {

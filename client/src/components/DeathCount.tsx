@@ -4,7 +4,7 @@ import { BASE_URL } from '../constants';
 interface Player {
   id: number;
   name: string;
-  deaths: number;
+  deaths: string;
 }
 
 function DeathCount() {
