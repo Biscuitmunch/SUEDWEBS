@@ -125,9 +125,12 @@ function Countdown() {
         } // it's beautiful :.>
       }, 1200);
 
-      const timeout = setTimeout(() => {
-        document.getElementById('bossText')?.setAttribute('style', 'opacity: 1');
-      }, 1500 + 500 * skullCount); // lmao
+      const timeout = setTimeout(
+        () => {
+          document.getElementById('bossText')?.setAttribute('style', 'opacity: 1');
+        },
+        1500 + 500 * skullCount
+      ); // lmao
       return () => {
         clearInterval(interval);
         clearTimeout(timeout);
@@ -144,10 +147,10 @@ function Countdown() {
               <>
                 {bossFight !== true &&
                   nextBosses?.map((boss, i) => (
-                    <div className={styles.flexContainer}>
+                    <div key={boss.name} className={styles.flexContainer}>
                       {i !== 0 && <hr className={styles.verticalRule} />}
                       {/* DO NOT COMBINE THESE DIVS*/}
-                      <div key={boss.name} className={styles.bossNameContainer}>
+                      <div className={styles.bossNameContainer}>
                         <div className={styles.bossName}>{boss.name}</div>
                       </div>
                     </div>

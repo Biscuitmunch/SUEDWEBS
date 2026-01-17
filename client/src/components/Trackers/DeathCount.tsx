@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { BASE_URL } from '../../constants';
 import styles from './DeathCount.module.css';
 import titles from '../FontStyles.module.css';
@@ -10,15 +10,9 @@ interface Player {
   deaths: number;
 }
 
-const ascDesc = {
-  asc: true,
-  desc: false,
-} as const;
-
 function DeathCount() {
   const [players, setPlayers] = useState<Player[]>([]);
-  const [order, setOrder] = useState<typeof ascDesc.asc | typeof ascDesc.desc>(ascDesc.asc);
-  const playerOrder = useRef<Player[]>([]);
+  const [order, setOrder] = useState<'asc' | 'desc'>('asc');
 
   useEffect(() => {
     fetch(`${BASE_URL}/deathcount`)
@@ -26,30 +20,17 @@ function DeathCount() {
       .then((data) => setPlayers(data));
   }, []);
 
-  function orderByDeaths() {
-    setPlayers(playerOrder.current);
-    setOrder(!order);
-    console.log(order);
-  }
-
-  useEffect(() => {
-    if (order) {
-      const sortedPlayers = players.sort((a, b) => a.deaths - b.deaths);
-      playerOrder.current = sortedPlayers;
-    } else {
-      const sortedPlayers = players.sort((a, b) => b.deaths - a.deaths);
-      playerOrder.current = sortedPlayers;
+  const sortedPlayers = useMemo(() => {
+    if (order === 'asc') {
+      return players.sort((a, b) => a.deaths - b.deaths);
     }
+    return players.sort((a, b) => b.deaths - a.deaths);
   }, [order, players]);
 
-  // useEffect(() => {
-  //   orderByDeaths();
-  // }, []);
-
-  const sortByDeaths = (e: MouseEvent<HTMLButtonElement>) => {
+  const sortByDeaths = useCallback((e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    orderByDeaths();
-  };
+    setOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
+  }, []);
 
   return (
     <div className={styles.gridContainer}>
@@ -60,7 +41,7 @@ function DeathCount() {
           Death Count
           <button id="button" onClick={sortByDeaths} className={styles.ascDescButton} />
         </div>
-        {players.map((player) => (
+        {sortedPlayers.map((player) => (
           <div key={player.id} className={styles.playerItem}>
             <div className={styles.playerName}>{player.name}</div>
             <div className={styles.playerDeaths}>{player.deaths}</div>
