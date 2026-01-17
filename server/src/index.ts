@@ -5,6 +5,12 @@ import { getBossList } from './services/bosslist.js';
 import { nextbosstime } from './services/nextbosstime.js';
 import { getDeathCount, putDeathCount } from './services/deathcount.js';
 import { setBossKills } from './services/bosskills.js';
+import timezone from 'dayjs/plugin/timezone.js';
+import utc from 'dayjs/plugin/utc.js';
+import dayjs from 'dayjs';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const app = express();
 const port = 3000;

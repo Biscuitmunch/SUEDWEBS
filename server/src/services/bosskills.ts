@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { DatabaseSync, StatementSync } from 'node:sqlite';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import path, { join } from 'node:path';
+import path from 'node:path';
 import { Boss } from './bosslist.js';
 import dayjs from 'dayjs';
 
@@ -96,7 +96,7 @@ export function setBossKills(req: Request, res: Response) {
     `UPDATE bosslist SET kills=(?), type='previous', date=(?) WHERE name=(?);`
   );
 
-  const today = dayjs.tz('Pacific/Auckland').format('DD/MM/YYYY');
+  const today = dayjs().tz('Pacific/Auckland').format('DD/MM/YYYY');
 
   query.run(data.bossKills, today, data.bossName);
 
