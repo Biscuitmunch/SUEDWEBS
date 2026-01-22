@@ -34,7 +34,7 @@ namespace BossTrackerWebhook
         {
             if (Main.netMode != NetmodeID.Server)
                 return;
-            if (!npc.boss)
+            if (!npc.boss && npc.type != 966)
                 return;
 
             BossTrackerWebhook.Instance.Logger.Info(
