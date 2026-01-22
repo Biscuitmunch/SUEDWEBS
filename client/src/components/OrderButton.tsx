@@ -1,17 +1,31 @@
 import { useMemo } from 'react';
+import { Order } from './Trackers/DeathCount';
+import { type OrderType } from './Trackers/DeathCount';
 
 interface OrderButtonProps {
-  order: 'ASC' | 'DESC';
+  order: OrderType;
+  updated: boolean;
 }
 
-function OrderButton({ order }: OrderButtonProps) {
+function OrderButton({ order, updated }: OrderButtonProps) {
   const [arrow, props] = useMemo<[string, React.CSSProperties]>(() => {
-    if (order === 'ASC') {
-      return ['⮝', { transform: 'translateY(1px)' }];
-    } else {
-      return ['⮟', {}];
+    if (order === Order.Ascending) {
+      if (updated) {
+        return ['⮝', { color: 'var(--ctp-red)' }];
+      } else {
+        {
+          return ['⮝', {}];
+        }
+      }
     }
-  }, [order]);
+    if (updated) {
+      return ['⮟', { color: 'var(--ctp-red)' }];
+    } else {
+      {
+        return ['⮟', {}];
+      }
+    }
+  }, [order, updated]);
 
   return <span style={props}>{arrow}</span>;
 }

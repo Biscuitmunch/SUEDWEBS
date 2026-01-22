@@ -13,3 +13,9 @@
 .title2 {
   font-size: 1.5rem;
 }
+
+.subtitle {
+  font-family: 'Franklin Gothic Medium', Helvetica, monospace;
+  font-weight: bold;
+  color: var(--ctp-sky);
+}

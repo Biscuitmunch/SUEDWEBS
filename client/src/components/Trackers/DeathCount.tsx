@@ -10,12 +10,12 @@ interface Player {
   deaths: number;
 }
 
-const Order = {
+export const Order = {
   Ascending: 'ASC',
   Descending: 'DESC',
 } as const;
 
-type OrderType = (typeof Order)[keyof typeof Order];
+export type OrderType = (typeof Order)[keyof typeof Order];
 
 const Update = {
   PlayerName: 'PLAYERNAME',
@@ -109,10 +109,22 @@ function DeathCount() {
       <div className={titles.title2}>Player Info</div>
       <div className={styles.grid}>
         <div className={styles.gridHeaders} onClick={sortByPlayerName}>
-          Player Name <OrderButton order={columnOrders.playerName} />
+          <div className={titles.subtitle}>
+            Player Name{' '}
+            <OrderButton
+              order={columnOrders.playerName}
+              updated={columnOrders.mostRecent === Update.PlayerName}
+            />
+          </div>
         </div>
         <div className={styles.gridHeaders} onClick={sortByDeathCount}>
-          Death Count <OrderButton order={columnOrders.deathCount} />
+          <div className={titles.subtitle}>
+            Death Count{' '}
+            <OrderButton
+              order={columnOrders.deathCount}
+              updated={columnOrders.mostRecent === Update.DeathCount}
+            />
+          </div>
         </div>
         {sortedPlayers.map((player) => (
           <div key={player.id} className={styles.playerItem}>

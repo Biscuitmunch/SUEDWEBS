@@ -1,7 +1,7 @@
 .gridContainer {
     background-color: var(--ctp-mantle);
     border: 5px solid var(--ctp-surface0);
-    padding: 2rem;
+    padding: 1rem;
     text-align: center;
 }
 
@@ -25,6 +25,10 @@
     cursor: pointer;
     -moz-user-select: none;
     user-select: none;
+}
+
+.gridHeaders:hover {
+    background-color: var(--ctp-base);
 }
 
 .playerItem {
