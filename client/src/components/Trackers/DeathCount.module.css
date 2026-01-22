@@ -1,5 +1,5 @@
 .gridContainer {
-    background-color: var(--ctp-mantle);
+    background-color: var(--ctp-base);
     border: 5px solid var(--ctp-surface0);
     padding: 1rem;
     text-align: center;
@@ -17,7 +17,7 @@
 
 .gridHeaders {
     display: flex;
-    background-color: var(--ctp-crust);
+    background-color: var(--ctp-mantle);
     align-items: end;
     text-align: left;
     padding: 0.3rem 0 0 0.2rem;
@@ -28,7 +28,7 @@
 }
 
 .gridHeaders:hover {
-    background-color: var(--ctp-base);
+    background-color: var(--ctp-crust);
 }
 
 .playerItem {

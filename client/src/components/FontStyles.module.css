@@ -4,6 +4,8 @@
   letter-spacing: 0.5ch;
   color: var(--ctp-red);
   text-transform: uppercase;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 .title {
