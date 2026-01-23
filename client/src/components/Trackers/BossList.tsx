@@ -15,64 +15,56 @@ function handleClickSpoilerText(e: React.MouseEvent<HTMLDivElement>): void {
 
   if (el.hasAttribute('clicked')) {
     el.removeAttribute('clicked');
-    if (el.hasAttribute('clicked')) {
-      el.removeAttribute('clicked');
-    } else {
-      el.setAttribute('clicked', '');
-      el.setAttribute('clicked', '');
-    }
+  } else {
+    el.setAttribute('clicked', '');
   }
-
-  function BossList() {
-    const [isShowingAll, setIsShowingAll] = useState(false);
-    const [bosses, setBosses] = useState<Boss[] | null>(null);
-
-    useEffect(() => {
-      fetch(`${BASE_URL}/bosslist`)
-        .then((response) => response.json())
-        .then(setBosses);
-    }, []);
-
-    const handleShowAll = useCallback(() => {
-      const allElements = document.querySelectorAll('.future');
-      const allElements = document.querySelectorAll('.future');
-
-      if (isShowingAll) {
-        allElements.forEach((x) => x.removeAttribute('clicked'));
-        allElements.forEach((x) => x.removeAttribute('clicked'));
-      } else {
-        allElements.forEach((x) => x.setAttribute('clicked', ''));
-        allElements.forEach((x) => x.setAttribute('clicked', ''));
-      }
-
-      setIsShowingAll((prev) => !prev);
-    }, [isShowingAll]);
-
-    return (
-      <div>
-        <div>Previous</div>
-        <div className={styles.bossList}>
-          <div>
-            {bosses?.map((boss: Boss, index: number) => (
-              <div key={index} className={styles.bossEntry}>
-                <div className={`${boss.type} ${styles[boss.type]}`} onClick={handleClickSpoilerText}>
-                  <div className={`${boss.type} ${styles[boss.type]}`} onClick={handleClickSpoilerText}>
-                    {boss.name}
-                  </div>
-                  {boss.note ? <div>({boss.note})</div> : <div />}
-                  {boss.date ? <div>{boss.date}</div> : <div />}
-                  {boss.kills ? <div>{boss.kills}</div> : <div />}
-                </div>
-          ))}
-              </div>
-      </div>
-          <label className={styles.showAll}>
-            <span>Show All</span>
-            <input onChange={handleShowAll} type="checkbox" checked={isShowingAll} />
-            <input onChange={handleShowAll} type="checkbox" checked={isShowingAll} />
-          </label>
-        </div>
-        );
 }
 
-        export default BossList;
+function BossList() {
+  const [isShowingAll, setIsShowingAll] = useState(false);
+  const [bosses, setBosses] = useState<Boss[] | null>(null);
+
+  useEffect(() => {
+    fetch(`${BASE_URL}/bosslist`)
+      .then((response) => response.json())
+      .then(setBosses);
+  }, []);
+
+  const handleShowAll = useCallback(() => {
+    const allElements = document.querySelectorAll('.future');
+
+    if (isShowingAll) {
+      allElements.forEach((x) => x.removeAttribute('clicked'));
+    } else {
+      allElements.forEach((x) => x.setAttribute('clicked', ''));
+    }
+
+    setIsShowingAll((prev) => !prev);
+  }, [isShowingAll]);
+
+  return (
+    <div>
+      <div>Previous</div>
+      <div className={styles.bossList}>
+        <div>
+          {bosses?.map((boss: Boss, index: number) => (
+            <div key={index} className={styles.bossEntry}>
+              <div className={`${boss.type} ${styles[boss.type]}`} onClick={handleClickSpoilerText}>
+                {boss.name}
+              </div>
+              {boss.note ? <div>({boss.note})</div> : <div />}
+              {boss.date ? <div>{boss.date}</div> : <div />}
+              {boss.kills ? <div>{boss.kills}</div> : <div />}
+            </div>
+          ))}
+        </div>
+      </div>
+      <label className={styles.showAll}>
+        <span>Show All</span>
+        <input onChange={handleShowAll} type="checkbox" checked={isShowingAll} />
+      </label>
+    </div>
+  );
+}
+
+export default BossList;
