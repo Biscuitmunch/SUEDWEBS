@@ -11,18 +11,18 @@ function OrderButton({ order, updated }: OrderButtonProps) {
   const [arrow, props] = useMemo<[string, React.CSSProperties]>(() => {
     if (order === Order.Ascending) {
       if (updated) {
-        return ['⮝', { color: 'var(--ctp-red)' }];
+        return ['⮝', {}];
       } else {
         {
-          return ['⮝', {}];
+          return ['●', {}];
         }
       }
     }
     if (updated) {
-      return ['⮟', { color: 'var(--ctp-red)' }];
+      return ['⮟', { display: 'inline-block', transform: 'translateY(-1px)' }];
     } else {
       {
-        return ['⮟', {}];
+        return ['●', {}];
       }
     }
   }, [order, updated]);
