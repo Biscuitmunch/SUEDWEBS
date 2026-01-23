@@ -7,7 +7,7 @@ import OrderButton from '../OrderButton.tsx';
 interface Player {
   id: number;
   name: string;
-  deaths: number;
+  deaths: string;
 }
 
 export const Order = {
@@ -89,11 +89,11 @@ function DeathCount() {
       }
     } else if (columnOrders.mostRecent === Update.DeathCount) {
       if (columnOrders.deathCount === Order.Ascending) {
-        return players.sort((a, b) => a.deaths - b.deaths);
+        return players.sort((a, b) => Number(a.deaths) - Number(b.deaths));
       }
-      return players.sort((a, b) => b.deaths - a.deaths);
+      return players.sort((a, b) => Number(b.deaths) - Number(a.deaths));
     }
-    return players.sort((a, b) => a.deaths - b.deaths);
+    return players.sort((a, b) => Number(a.deaths) - Number(b.deaths));
   }, [columnOrders, players]);
 
   const sortByPlayerName = useCallback(() => {
