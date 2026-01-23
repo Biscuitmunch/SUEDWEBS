@@ -10,8 +10,8 @@ export interface Boss {
   kills: string;
 }
 
-function handleClickSpoilerText(e: React.MouseEvent<HTMLDivElement>): void {
-  const el = e.target as HTMLDivElement;
+function handleSelected(e: React.MouseEvent<HTMLDivElement>): void {
+  const el = e.currentTarget as HTMLDivElement;
 
   if (el.hasAttribute('clicked')) {
     el.removeAttribute('clicked');
@@ -31,12 +31,12 @@ function BossList() {
   }, []);
 
   const handleShowAll = useCallback(() => {
-    const allElements = document.querySelectorAll('.future');
+    const allFuture = document.querySelectorAll('.future');
 
     if (isShowingAll) {
-      allElements.forEach((x) => x.removeAttribute('clicked'));
+      allFuture.forEach((x) => x.removeAttribute('clicked'));
     } else {
-      allElements.forEach((x) => x.setAttribute('clicked', ''));
+      allFuture.forEach((x) => x.setAttribute('clicked', ''));
     }
 
     setIsShowingAll((prev) => !prev);
@@ -49,12 +49,24 @@ function BossList() {
         <div>
           {bosses?.map((boss: Boss, index: number) => (
             <div key={index} className={styles.bossEntry}>
-              <div className={`${boss.type} ${styles[boss.type]}`} onClick={handleClickSpoilerText}>
-                {boss.name}
-              </div>
-              {boss.note ? <div>({boss.note})</div> : <div />}
-              {boss.date ? <div>{boss.date}</div> : <div />}
-              {boss.kills ? <div>{boss.kills}</div> : <div />}
+              {boss.type === 'current' && (
+                <div className={styles.currentContainer} onClick={handleSelected}>
+                  <div className={`${boss.type} ${styles[boss.type]}`}>{boss.name}</div>
+                  {boss.note ? <div>({boss.note})</div> : <div />}
+                  {boss.date ? <div>{boss.date}</div> : <div />}
+                  {boss.kills ? <div>{boss.kills}</div> : <div />}
+                </div>
+              )}
+              {boss.type != 'current' && (
+                <>
+                  <div className={`${boss.type} ${styles[boss.type]}`} onClick={handleSelected}>
+                    {boss.name}
+                  </div>
+                  {boss.note ? <div>({boss.note})</div> : <div />}
+                  {boss.date ? <div>{boss.date}</div> : <div />}
+                  {boss.kills ? <div>{boss.kills}</div> : <div />}
+                </>
+              )}
             </div>
           ))}
         </div>

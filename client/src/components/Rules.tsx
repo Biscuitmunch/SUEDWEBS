@@ -30,10 +30,6 @@ function Rules() {
             Please make sure to have entered your preferred times for the next boss at least half a
             week (3 days) in advance.
           </li>
-          <li>
-            You may also enter or update preferred times for future bosses (beyond the next boss) at
-            any time, but this is not required.
-          </li>
         </ul>
       </div>
     </>
