@@ -11,7 +11,7 @@ export interface Boss {
 }
 
 interface ToggleProps {
-  onToggle: (boss: string) => void;
+  onToggle: (bossName: string) => void;
 }
 
 function handleClickSpoilerText(e: React.MouseEvent<HTMLDivElement>): void {
