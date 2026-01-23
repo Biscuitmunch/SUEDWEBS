@@ -1,0 +1,5 @@
+.pollArea {
+  background-color: var(--ctp-mantle);
+  height: 100%;
+  border: 5px solid var(--ctp-surface0);
+}

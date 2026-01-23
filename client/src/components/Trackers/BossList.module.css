@@ -41,10 +41,6 @@
   cursor: pointer;
 }
 
-.currentContainer[clicked] {
-  background-color: red;
-}
-
 .current {
   color: var(--ctp-yellow);
 }

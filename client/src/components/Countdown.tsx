@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import styles from './Countdown.module.css';
-import type { Boss } from './BossList.tsx';
+import type { Boss } from './Trackers/BossList.tsx';
 import { BASE_URL } from '../constants';
 // import bossSound from "./public";
 

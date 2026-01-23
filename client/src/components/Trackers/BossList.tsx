@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import styles from './BossList.module.css';
-import { BASE_URL } from '../constants';
+import { BASE_URL } from '../../constants';
 
 export interface Boss {
   name: string;
@@ -10,7 +10,11 @@ export interface Boss {
   kills: string;
 }
 
-function handleSelected(e: React.MouseEvent<HTMLDivElement>): void {
+interface ToggleProps {
+  onToggle: (boss: string) => void;
+}
+
+function handleClickSpoilerText(e: React.MouseEvent<HTMLDivElement>): void {
   const el = e.currentTarget as HTMLDivElement;
 
   if (el.hasAttribute('clicked')) {
@@ -20,7 +24,7 @@ function handleSelected(e: React.MouseEvent<HTMLDivElement>): void {
   }
 }
 
-function BossList() {
+function BossList({ onToggle = () => {} }: ToggleProps) {
   const [isShowingAll, setIsShowingAll] = useState(false);
   const [bosses, setBosses] = useState<Boss[] | null>(null);
 
@@ -50,7 +54,7 @@ function BossList() {
           {bosses?.map((boss: Boss, index: number) => (
             <div key={index} className={styles.bossEntry}>
               {boss.type === 'current' && (
-                <div className={styles.currentContainer} onClick={handleSelected}>
+                <div className={styles.currentContainer} onClick={() => onToggle(boss.name)}>
                   <div className={`${boss.type} ${styles[boss.type]}`}>{boss.name}</div>
                   {boss.note ? <div>({boss.note})</div> : <div />}
                   {boss.date ? <div>{boss.date}</div> : <div />}
@@ -59,7 +63,10 @@ function BossList() {
               )}
               {boss.type != 'current' && (
                 <>
-                  <div className={`${boss.type} ${styles[boss.type]}`} onClick={handleSelected}>
+                  <div
+                    className={`${boss.type} ${styles[boss.type]}`}
+                    onClick={handleClickSpoilerText}
+                  >
                     {boss.name}
                   </div>
                   {boss.note ? <div>({boss.note})</div> : <div />}
