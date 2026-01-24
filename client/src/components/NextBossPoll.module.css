@@ -2,11 +2,13 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 25rem;
+  height: auto;
+  max-height: 25rem;
   background-color: var(--ctp-mantle);
   border: 5px solid var(--ctp-surface0);
   overflow-y: auto;
   gap: 0.2rem;
+  padding-bottom: 1rem;
 }
 
 .titleBox {
@@ -42,22 +44,50 @@
   text-align: center;
 }
 
+.todayHeader,
+.availableHeader,
+.availableTodayHeader,
+.unavailableHeader {
+  display: flex;
+  font-size: 1rem;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2;
+}
+
+.todayHeader {
+  background-color: var(--ctp-peach);
+  color: var(--ctp-mantle);
+}
+
+.availableHeader {
+  background-color: var(--ctp-sky);
+  color: var(--ctp-mantle);
+  position: relative;
+}
+
+.availableTodayHeader {
+  width: 100%;
+  clip-path: polygon(0 100%, 100% 0, 100% 100%);
+  background-color: var(--ctp-peach);
+  color: var(--ctp-mantle);
+  position: absolute;
+}
+
+.unavailableHeader {
+  background-color: var(--ctp-surface0);
+}
+
 .dayTimeSelectionGrid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  box-sizing: border-box;
   background-color: var(--ctp-mantle);
   gap: 3px;
   margin: 0 1rem 0 1rem;
   cursor: pointer;
   -moz-user-select: none;
   user-select: none;
-}
-
-.dayGridHeaders {
-  display: flex;
-  background-color: var(--ctp-surface0);
-  font-size: 1rem;
-  padding-left: 0.2rem;
 }
 
 .dayGridItem {
@@ -77,27 +107,29 @@
 .buttonBar {
   display: flex;
   flex-direction: row;
+  height: auto;
   margin: 0.75rem 1rem 0 1rem;
   justify-content: space-around;
 }
 
 .userDropdownButton {
-  background-color: var(--ctp-surface0);
-  width: 40%;
-  height: auto;
-  margin-bottom: 2rem;
+  background-color: var(--ctp-surface1);
   text-align: center;
   align-content: center;
   cursor: pointer;
+  padding: 0.5rem;
 }
 
 .userDropdownButton:hover,
 .userDropdownButton:focus {
+  background-color: var(--ctp-surface0);
 }
 
 .userDropdown {
   position: relative;
   display: inline-block;
+  width: 40%;
+  margin-top: 1rem;
 }
 
 .userDropdownContent {
@@ -110,8 +142,8 @@
 
 .submissionArea {
   display: grid;
-  grid-template-columns: auto 1fr;
-  width: 40%;
+  grid-template-columns: 1fr auto;
+  width: 50%;
   row-gap: 0.5rem;
 }
 
@@ -123,26 +155,37 @@
   text-align: center;
   align-content: flex-start;
   line-height: normal;
-  border: 1px solid black;
+  border: 1px solid var(--ctp-surface1);
   border-radius: 50%;
   cursor: pointer;
 }
 
 .toolTip {
-  visibility: visible;
+  visibility: hidden;
+  margin: -0.25rem 0 0 0.5rem;
   font-size: 0.7rem;
 }
 
-.questionMark:hover .toolTip {
+.questionMark:hover {
+  border: 1px solid var(--ctp-red);
+  filter: blur(0.1rem);
+}
+
+.questionMark:hover ~ .toolTip {
   visibility: visible;
 }
 
 .submitButton {
   grid-column: 1 / span 2;
-  background-color: var(--ctp-overlay1);
+  background-color: var(--ctp-overlay0);
   width: 100%;
-  aspect-ratio: 5;
+  aspect-ratio: 6;
   text-align: center;
+  color: var(--ctp-crust);
   align-content: center;
   cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: var(--ctp-sky);
 }
