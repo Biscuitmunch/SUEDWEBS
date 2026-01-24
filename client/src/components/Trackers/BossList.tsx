@@ -54,8 +54,8 @@ function BossList({ onToggle = () => {} }: ToggleProps) {
           <div key={index}>
             {boss.type === 'current' && bosses.at(index - 1)?.type != 'current' && (
               <div className={styles.currentContainer} onClick={() => onToggle(boss.name)}>
-                {bosses.slice(index)?.map((boss: Boss, currentIndex: number) => (
-                  <div key={currentIndex}>
+                {bosses.slice(index)?.map((boss: Boss, index: number) => (
+                  <div key={index}>
                     {boss.type === 'current' && (
                       <div className={styles.bossEntry}>
                         <div className={`${boss.type} ${styles[boss.type]}`}>{boss.name}</div>

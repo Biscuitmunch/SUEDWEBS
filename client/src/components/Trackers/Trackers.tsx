@@ -22,13 +22,10 @@ function Trackers() {
       <div className={styles.deathCount}>
         <DeathCount />
       </div>
-      <div className={styles.bossList}>
-        <BossList onToggle={toggleBossPoll} />
-      </div>
+      <BossList onToggle={toggleBossPoll} />
       <div className={styles.nextBossPoll}>
         <NextBossPoll visibility={bossPollVisibility} bossName={bossName} />
       </div>
-      <div className={styles.space} />
     </div>
   );
 }

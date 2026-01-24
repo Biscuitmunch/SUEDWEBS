@@ -1,6 +1,5 @@
 .bossList {
-  max-height: 600px;
-  /* min-width: 400px; */
+  max-height: 37.5rem;
   overflow-y: scroll;
   border: 5px solid var(--ctp-surface0);
   padding: 1rem;
