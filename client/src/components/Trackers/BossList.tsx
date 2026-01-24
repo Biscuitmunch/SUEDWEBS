@@ -50,33 +50,39 @@ function BossList({ onToggle = () => {} }: ToggleProps) {
     <div>
       <div>Previous</div>
       <div className={styles.bossList}>
-        <div>
-          {bosses?.map((boss: Boss, index: number) => (
-            <div key={index} className={styles.bossEntry}>
-              {boss.type === 'current' && (
-                <div className={styles.currentContainer} onClick={() => onToggle(boss.name)}>
-                  <div className={`${boss.type} ${styles[boss.type]}`}>{boss.name}</div>
-                  {boss.note ? <div>({boss.note})</div> : <div />}
-                  {boss.date ? <div>{boss.date}</div> : <div />}
-                  {boss.kills ? <div>{boss.kills}</div> : <div />}
-                </div>
-              )}
-              {boss.type != 'current' && (
-                <>
-                  <div
-                    className={`${boss.type} ${styles[boss.type]}`}
-                    onClick={handleClickSpoilerText}
-                  >
-                    {boss.name}
+        {bosses?.map((boss: Boss, index: number, bosses: Boss[]) => (
+          <div key={index}>
+            {boss.type === 'current' && bosses.at(index - 1)?.type != 'current' && (
+              <div className={styles.currentContainer} onClick={() => onToggle(boss.name)}>
+                {bosses.slice(index)?.map((boss: Boss, currentIndex: number) => (
+                  <div key={currentIndex}>
+                    {boss.type === 'current' && (
+                      <div className={styles.bossEntry}>
+                        <div className={`${boss.type} ${styles[boss.type]}`}>{boss.name}</div>
+                        {boss.note ? <div>({boss.note})</div> : <div />}
+                        {boss.date ? <div>{boss.date}</div> : <div />}
+                        {boss.kills ? <div>{boss.kills}</div> : <div />}
+                      </div>
+                    )}
                   </div>
-                  {boss.note ? <div>({boss.note})</div> : <div />}
-                  {boss.date ? <div>{boss.date}</div> : <div />}
-                  {boss.kills ? <div>{boss.kills}</div> : <div />}
-                </>
-              )}
-            </div>
-          ))}
-        </div>
+                ))}
+              </div>
+            )}
+            {boss.type != 'current' && (
+              <div className={styles.bossEntry}>
+                <div
+                  className={`${boss.type} ${styles[boss.type]}`}
+                  onClick={handleClickSpoilerText}
+                >
+                  {boss.name}
+                </div>
+                {boss.note ? <div>({boss.note})</div> : <div />}
+                {boss.date ? <div>{boss.date}</div> : <div />}
+                {boss.kills ? <div>{boss.kills}</div> : <div />}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
       <label className={styles.showAll}>
         <span>Show All</span>
