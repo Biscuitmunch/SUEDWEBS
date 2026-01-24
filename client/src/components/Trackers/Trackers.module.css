@@ -3,14 +3,15 @@
   grid-template-columns: 1fr 1fr 1fr;
   width: 100vw;
   gap: 3vw;
+  align-items: end;
   padding: 1rem 0 2rem 0;
 }
 
 .deathCount {
-  margin: 33% 0 5rem 8vw;
+  margin: 0 0 10rem 8vw;
 }
 
 .nextBossPoll {
-  margin: 33% 8vw 5rem 0;
-  /* border: 5px solid black; */
+  margin: 0 8vw 10rem 0;
+  min-width: 15rem;
 }
