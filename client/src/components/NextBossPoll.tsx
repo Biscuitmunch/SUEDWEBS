@@ -1,4 +1,4 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 import styles from './NextBossPoll.module.css';
 
 interface Props {
@@ -10,11 +10,42 @@ function NextBossPoll({ bossName, visibility }: Props) {
   // const [dropdownVisibility, setDropdownVisibility] = useState(false);
   // const [selectedUser, setSelectedUser] = useState(0);
   // const [selectedTimes, setSelectedTimes] = useState(0);
+  const [isMouseDown, setIsMouseDown] = useState(false);
+  const [prevTargetField, setPrevTargetField] = useState<HTMLDivElement>();
 
-  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    const timeField = e.target as HTMLDivElement;
+    if (!timeField.hasAttribute('selected')) {
+      timeField.setAttribute('selected', '');
+    } else {
+      timeField.removeAttribute('selected');
+    }
+    setPrevTargetField(timeField);
+    setIsMouseDown(true);
+  };
+
+  const handleMouseUp = () => {
+    setIsMouseDown(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const timeField = e.target as HTMLDivElement;
+    if (timeField != prevTargetField) {
+      setPrevTargetField(timeField);
+      if (isMouseDown && !timeField?.hasAttribute('selected')) {
+        timeField?.setAttribute('selected', '');
+      } else if (isMouseDown && timeField.hasAttribute('selected')) {
+        timeField.removeAttribute('selected');
+        if (prevTargetField?.hasAttribute('selected')) prevTargetField.removeAttribute('selected');
+      }
+    }
+  };
+
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   const times = [12, ...[...Array(11).keys()].slice(1)];
 
-  const today = 'Sunday';
+  const today = 'Sunday'; // Should be able to use dayjs here.
   const available = ['Monday', 'Saturday', 'Sunday'];
 
   // function toggleDropdown() {
@@ -32,28 +63,53 @@ function NextBossPoll({ bossName, visibility }: Props) {
             <span className={styles.legendToday}>■ Today's Date</span>
             <span className={styles.legendAvailable}>■ Available Dates</span>
           </div>
-          <div className={styles.dayTimeSelectionGrid}>
+          <div className={styles.dayTimeSelectionGrid} onMouseLeave={handleMouseUp}>
             {days.map((day: string, index: number) => (
               <div key={index}>
                 {available.includes(day) && day != today && (
-                  <div className={styles.availableHeader}>&thinsp;{day[0]}</div>
+                  <div className={styles.availableHeader} onMouseEnter={handleMouseUp}>
+                    &thinsp;{day[0]}
+                  </div>
                 )}
                 {!available.includes(day) && day != today && (
-                  <div className={styles.unavailableHeader}>&thinsp;{day[0]}</div>
+                  <div className={styles.unavailableHeader} onMouseEnter={handleMouseUp}>
+                    &thinsp;{day[0]}
+                  </div>
                 )}
                 {available.includes(day) && day === today && (
-                  <div className={styles.availableHeader}>
+                  <div className={styles.availableHeader} onMouseEnter={handleMouseUp}>
                     &thinsp;{day[0]}
-                    <div className={styles.availableTodayHeader} />
+                    <div className={styles.availableTodayHeader} onMouseEnter={handleMouseUp} />
                   </div>
                 )}
                 {!available.includes(day) && day === today && (
-                  <div className={styles.todayHeader}>&thinsp;{day[0]}</div>
+                  <div className={styles.todayHeader} onMouseEnter={handleMouseUp}>
+                    &thinsp;{day[0]}
+                  </div>
                 )}
                 <div className={styles.dayGridItem}>
                   {times.map((time: number, index: number) => (
-                    <div key={index} className={styles.timeGridItem}>
-                      {time}
+                    <div
+                      key={index}
+                      onMouseUp={handleMouseUp}
+                      onMouseDown={handleMouseDown}
+                      onMouseMove={handleMouseMove}
+                    >
+                      {available.includes(day) &&
+                        weekdays.includes(day) &&
+                        time > 5 &&
+                        time != 12 && <div className={styles.timeGridItemSelectable}>{time}</div>}
+                      {available.includes(day) &&
+                        weekdays.includes(day) &&
+                        (time <= 5 || time == 12) && (
+                          <div className={styles.timeGridItemDisabled}>{time}</div>
+                        )}
+                      {available.includes(day) && !weekdays.includes(day) && (
+                        <div className={styles.timeGridItemSelectable}>{time}</div>
+                      )}
+                      {!available.includes(day) && (
+                        <div className={styles.timeGridItemDisabled}>{time}</div>
+                      )}
                     </div>
                   ))}
                 </div>

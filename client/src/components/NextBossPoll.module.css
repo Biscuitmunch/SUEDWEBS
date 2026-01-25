@@ -57,12 +57,12 @@
 
 .todayHeader {
   background-color: var(--ctp-peach);
-  color: var(--ctp-mantle);
+  color: var(--ctp-surface0);
 }
 
 .availableHeader {
   background-color: var(--ctp-sky);
-  color: var(--ctp-mantle);
+  color: var(--ctp-surface0);
   position: relative;
 }
 
@@ -70,7 +70,7 @@
   width: 100%;
   clip-path: polygon(0 100%, 100% 0, 100% 100%);
   background-color: var(--ctp-peach);
-  color: var(--ctp-mantle);
+  color: var(--ctp-surface0);
   position: absolute;
 }
 
@@ -95,13 +95,26 @@
   grid-template-rows: repeat(11, 1fr);
 }
 
-.timeGridItem {
+.timeGridItemSelectable,
+.timeGridItemDisabled {
   display: grid;
   grid-template-columns: subgrid;
-  background-color: var(--ctp-surface1);
   border-bottom: 1px dashed var(--ctp-surface0);
   font-size: 0.7rem;
   padding-left: 0.1rem;
+}
+
+.timeGridItemSelectable {
+  background-color: var(--ctp-overlay0);
+}
+
+.timeGridItemSelectable[selected] {
+  background-color: var(--ctp-green);
+  color: var(--ctp-surface0);
+}
+
+.timeGridItemDisabled {
+  background-color: var(--ctp-surface1);
 }
 
 .buttonBar {
