@@ -4,7 +4,15 @@
   width: 100vw;
   gap: 3vw;
   align-items: end;
-  padding: 1rem 0 2rem 0;
+  /* padding: 1rem 0 2rem 0; */
+  border: 1px solid black;
+}
+
+@media (width < 600px) {
+  .trackerContainer {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .deathCount {

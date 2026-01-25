@@ -8,10 +8,12 @@ function Trackers() {
   const [bossPollVisibility, setBossPollVisibility] = useState(false);
   const [bossName, setBossName] = useState('');
 
-  const toggleBossPoll = (name: string) => {
-    setBossName(name);
-    if (name != bossName) {
+  const toggleBossPoll = (name: string | null) => {
+    if (name === null) {
+      setBossPollVisibility(false);
+    } else if (name != bossName) {
       setBossPollVisibility(true);
+      setBossName(name);
     } else {
       setBossPollVisibility(!bossPollVisibility);
     }
@@ -24,7 +26,11 @@ function Trackers() {
       </div>
       <BossList onToggle={toggleBossPoll} />
       <div className={styles.nextBossPoll}>
-        <NextBossPoll visibility={bossPollVisibility} bossName={bossName} />
+        <NextBossPoll
+          onToggle={toggleBossPoll}
+          visibility={bossPollVisibility}
+          bossName={bossName}
+        />
       </div>
     </div>
   );

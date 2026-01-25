@@ -10,7 +10,7 @@ export interface Boss {
   kills: string;
 }
 
-interface ToggleProps {
+interface ToggleProp {
   onToggle: (bossName: string) => void;
 }
 
@@ -24,7 +24,7 @@ function handleClickSpoilerText(e: React.MouseEvent<HTMLDivElement>): void {
   }
 }
 
-function BossList({ onToggle = () => {} }: ToggleProps) {
+function BossList({ onToggle = () => {} }: ToggleProp) {
   const [isShowingAll, setIsShowingAll] = useState(false);
   const [bosses, setBosses] = useState<Boss[] | null>(null);
 

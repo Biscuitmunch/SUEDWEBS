@@ -1,17 +1,29 @@
-import { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styles from './NextBossPoll.module.css';
 
 interface Props {
+  onToggle: (bossName: string | null) => void;
   bossName: string;
   visibility: boolean;
 }
 
-function NextBossPoll({ bossName, visibility }: Props) {
-  // const [dropdownVisibility, setDropdownVisibility] = useState(false);
-  const [selectedUser, setSelectedUser] = useState('');
-  // const [selectedTimes, setSelectedTimes] = useState(0);
+// class PasswordForm extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {value: ''};
+//     this.handleChange = this.handleChange.bind(this);
+//     this.handleSubmit = this.handleSubmit.bind(this);
+//     }
+//   }
+// }
+
+function NextBossPoll({ onToggle = () => {}, bossName, visibility }: Props) {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [prevTargetField, setPrevTargetField] = useState<HTMLDivElement>();
+
+  const [selectedUser, setSelectedUser] = useState('');
+  const userSelectTipRef = useRef<Element | null>(null);
+  // const [selectedTimes, setSelectedTimes] = useState<HTMLDivElement>();
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     const timeField = e.target as HTMLDivElement;
@@ -55,8 +67,24 @@ function NextBossPoll({ bossName, visibility }: Props) {
     const button = span?.parentElement?.previousElementSibling;
 
     setSelectedUser(span.textContent);
-    if (button) button.textContent = selectedUser;
+    if (button) button.textContent = span.textContent;
     button?.removeAttribute('clicked');
+
+    if (userSelectTipRef.current?.hasAttribute('show'))
+      userSelectTipRef.current.removeAttribute('show');
+  };
+
+  const handleNoUserSelected = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const button = e.target as HTMLButtonElement;
+    const userSelectTip = button.nextElementSibling;
+    userSelectTipRef.current = userSelectTip;
+    if (selectedUser === '') {
+      userSelectTip?.setAttribute('show', '');
+      console.log('hey');
+      return;
+    }
+    setSelectedUser('');
+    onToggle(null);
   };
 
   // This should stay pretty much the same through backend updates.
@@ -67,11 +95,7 @@ function NextBossPoll({ bossName, visibility }: Props) {
   // Needs to be queried.
   const today = 'Sunday'; // Should be able to use dayjs here.
   const available = ['Monday', 'Saturday', 'Sunday'];
-  const users = ['User', 'User', 'User', 'User', 'User', 'User', 'User'];
-
-  // function toggleDropdown() {
-  //   setDropdownVisibility(!dropdownVisibility);
-  // }
+  const users = ['User1', 'User2', 'User3', 'User4', 'User5', 'User6', 'User7'];
 
   return (
     <>
@@ -138,24 +162,39 @@ function NextBossPoll({ bossName, visibility }: Props) {
             ))}
           </div>
           <div className={styles.buttonBar}>
-            <div className={styles.userDropdown}>
-              <button className={styles.userDropdownButton} onClick={handleUserDropdownClick}>
-                Select User ⮟
-              </button>
-              <div className={styles.userDropdownContent}>
-                {users.map((user: string, index: number) => (
-                  <span key={index} onClick={handleUserSelect}>
-                    {user}
-                  </span>
-                ))}
+            <div className={styles.userSelectContainer}>
+              <div className={styles.userSelectDropdown}>
+                <button
+                  className={styles.userSelectDropdownButton}
+                  onClick={handleUserDropdownClick}
+                >
+                  Select User ⮟
+                </button>
+                <div className={styles.userSelectDropdownContent}>
+                  {users.map((user: string, index: number) => (
+                    <span key={index} onClick={handleUserSelect}>
+                      {user}
+                    </span>
+                  ))}
+                </div>
               </div>
+              <form>
+                <button type="submit" disabled style={{ display: 'none' }} aria-hidden="true" />
+                <label>Password</label>
+                <input type="password" id="password" name="password" />
+              </form>
             </div>
             <div className={styles.submissionArea}>
-              <div className={styles.questionMark}>?</div>
-              <div className={styles.toolTip}>
-                If you don't see your name here, please speak to the server owners.
+              <div className={styles.toolTipArea}>
+                <div className={styles.questionMark}>?</div>
+                <div className={styles.toolTip}>
+                  If you don't see your name here, please speak to the server owners.
+                </div>
               </div>
-              <button className={styles.submitButton}>Submit</button>
+              <button className={styles.submitButton} onClick={handleNoUserSelected}>
+                Submit
+              </button>
+              <div className={styles.userSelectTip}>Please select your user</div>
             </div>
           </div>
         </div>

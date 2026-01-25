@@ -5,7 +5,7 @@
   height: auto;
   max-height: 27rem;
   background-color: var(--ctp-mantle);
-  border: 5px solid var(--ctp-surface0);
+  border-radius: 1.5rem;
   gap: 0.2rem;
   padding-bottom: 1rem;
 }
@@ -52,6 +52,15 @@
   width: 100%;
   height: auto;
   aspect-ratio: 2;
+}
+
+@media (width < 600px) {
+  .todayHeader,
+  .availableHeader,
+  .availableTodayHeader,
+  .unavailableHeader {
+    font-size: 1rem;
+  }
 }
 
 .todayHeader {
@@ -120,47 +129,55 @@
 }
 
 .buttonBar {
+  display: grid;
+  grid-template-columns: 5fr 6fr;
+  padding: 1rem 1.5rem 0 1.5rem;
+  gap: 1rem;
+}
+
+.userSelectContainer {
+  grid-column: 1;
   display: flex;
-  flex-direction: row;
-  height: auto;
-  margin: 0.75rem 1rem 0 1rem;
-  justify-content: space-around;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: center;
 }
 
-.userDropdown {
-  height: fit-content;
+.userSelectDropdown {
   position: relative;
-  margin-top: 1rem;
 }
 
-.userDropdownButton {
-  width: 8.5vw;
-  height: auto;
+.userSelectDropdownButton {
+  width: 100%;
   background-color: var(--ctp-surface1);
   text-align: center;
   cursor: pointer;
+}
+
+.userSelectDropdownButton .submitButton {
+  height: 2.25rem;
   padding: 0.25vw 1.5vw 0.25vw 1.5vw;
 }
 
-.userDropdownButton:hover,
-.userDropdownButton:focus {
+.userSelectDropdownButton:hover,
+.userSelectDropdownButton:focus {
   background-color: var(--ctp-surface0);
-  border: 1px solid var(--ctp-overlay0);
+  border: 1px solid var(--ctp-overlay1);
 }
 
-.userDropdownButton[clicked] {
+.userSelectDropdownButton[clicked] {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.userDropdownButton[clicked] + .userDropdownContent {
+.userSelectDropdownButton[clicked] + .userSelectDropdownContent {
   display: block;
 }
 
-.userDropdownContent {
+.userSelectDropdownContent {
   display: none;
   width: 100%;
-  max-height: 7rem;
+  max-height: 7.5rem;
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -170,12 +187,12 @@
   cursor: pointer;
 }
 
-.userDropdownContent::-webkit-scrollbar {
+.userSelectDropdownContent::-webkit-scrollbar {
   width: 0;
   height: 0;
 }
 
-.userDropdownContent span {
+.userSelectDropdownContent span {
   display: block;
   width: inherit;
   text-align: center;
@@ -184,23 +201,44 @@
   padding: 0.1rem 0 0.1rem 0;
 }
 
-.userDropdownContent span:hover {
+.userSelectDropdownContent span:hover {
   background-color: var(--ctp-surface0);
 }
 
-/* .userDropdownContent:has(span[clicked]) span {
-  display: none;
-  color: black;
-} */
+input {
+  height: 1rem;
+  width: calc(100% - 4px);
+  background-color: var(--ctp-surface1);
+  border: 2px inset var(--ctp-overlay0);
+  border-radius: 8px;
+  padding: 0.25rem 0 0.25rem 0;
+  text-align: center;
+}
+
+input:hover,
+input:focus {
+  background-color: var(--ctp-surface0);
+}
+
+input:focus,
+input:focus-visible {
+  outline: 1px solid var(--ctp-overlay1);
+}
 
 .submissionArea {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  width: 50%;
-  row-gap: 0.5rem;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.toolTipArea {
+  display: flex;
+  padding-bottom: 0.5rem;
+  align-items: center;
 }
 
 .questionMark {
+  flex: none;
   width: 1.2rem;
   height: 1.2rem;
   font-family: monospace;
@@ -214,9 +252,10 @@
 }
 
 .toolTip {
+  display: inline-block;
   visibility: hidden;
   max-height: 5rem;
-  margin: -0.25rem 0 0 0.5rem;
+  padding-left: 0.5rem;
   font-size: 0.7rem;
   -moz-user-select: none;
   user-select: none;
@@ -232,16 +271,25 @@
 }
 
 .submitButton {
-  grid-column: 1 / span 2;
-  height: 2.25rem;
   text-align: center;
+  color: var(--ctp-crust);
   background-color: var(--ctp-overlay0);
   border: 1px transparent;
-  color: var(--ctp-crust);
-  padding: 0.25vw 0 0.25vw 0;
   cursor: pointer;
 }
 
 .submitButton:hover {
   background-color: var(--ctp-sky);
+}
+
+.userSelectTip {
+  display: block;
+  visibility: hidden;
+  text-align: center;
+  color: var(--ctp-red);
+  font-size: clamp(0.7rem, 0.7vw, 1rem);
+}
+
+.userSelectTip[show] {
+  visibility: visible;
 }

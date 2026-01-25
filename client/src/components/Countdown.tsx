@@ -98,7 +98,7 @@ function Countdown() {
       document.getElementById('titleBox')?.style.setProperty('width', '0'); // Set title width to zero to allow skulls to place correctly.
 
       const placeBossSkull = () => {
-        const bossTitleCard = document.getElementById('bossTitleCard');
+        const bossTitleCard = document.getElementById('bossTitleCard'); // no... better is to have ref prop = useRef and useEffect if needed.
         const skull = document.createElement('div');
         skull.classList.add(styles.bossSkull);
         bossTitleCard?.appendChild(skull);
