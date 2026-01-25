@@ -8,7 +8,7 @@ interface Props {
 
 function NextBossPoll({ bossName, visibility }: Props) {
   // const [dropdownVisibility, setDropdownVisibility] = useState(false);
-  // const [selectedUser, setSelectedUser] = useState(0);
+  const [selectedUser, setSelectedUser] = useState('');
   // const [selectedTimes, setSelectedTimes] = useState(0);
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [prevTargetField, setPrevTargetField] = useState<HTMLDivElement>();
@@ -41,12 +41,33 @@ function NextBossPoll({ bossName, visibility }: Props) {
     }
   };
 
+  const handleUserDropdownClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const button = e.target as HTMLDivElement;
+    if (!button.hasAttribute('clicked')) {
+      button.setAttribute('clicked', '');
+    } else {
+      button.removeAttribute('clicked');
+    }
+  };
+
+  const handleUserSelect = (e: React.MouseEvent<HTMLSpanElement>) => {
+    const span = e.target as HTMLSpanElement;
+    const button = span?.parentElement?.previousElementSibling;
+
+    setSelectedUser(span.textContent);
+    if (button) button.textContent = selectedUser;
+    button?.removeAttribute('clicked');
+  };
+
+  // This should stay pretty much the same through backend updates.
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   const times = [12, ...[...Array(11).keys()].slice(1)];
 
+  // Needs to be queried.
   const today = 'Sunday'; // Should be able to use dayjs here.
   const available = ['Monday', 'Saturday', 'Sunday'];
+  const users = ['User', 'User', 'User', 'User', 'User', 'User', 'User'];
 
   // function toggleDropdown() {
   //   setDropdownVisibility(!dropdownVisibility);
@@ -118,14 +139,23 @@ function NextBossPoll({ bossName, visibility }: Props) {
           </div>
           <div className={styles.buttonBar}>
             <div className={styles.userDropdown}>
-              <div className={styles.userDropdownButton}>Select User ⮟</div>
+              <button className={styles.userDropdownButton} onClick={handleUserDropdownClick}>
+                Select User ⮟
+              </button>
+              <div className={styles.userDropdownContent}>
+                {users.map((user: string, index: number) => (
+                  <span key={index} onClick={handleUserSelect}>
+                    {user}
+                  </span>
+                ))}
+              </div>
             </div>
             <div className={styles.submissionArea}>
               <div className={styles.questionMark}>?</div>
               <div className={styles.toolTip}>
                 If you don't see your name here, please speak to the server owners.
               </div>
-              <div className={styles.submitButton}>Submit</div>
+              <button className={styles.submitButton}>Submit</button>
             </div>
           </div>
         </div>
