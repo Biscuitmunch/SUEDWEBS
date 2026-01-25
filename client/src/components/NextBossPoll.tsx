@@ -1,10 +1,8 @@
 import React, { useState, useRef } from 'react';
 import styles from './NextBossPoll.module.css';
 
-interface Props {
-  onToggle: (bossName: string | null) => void;
+interface bossProp {
   bossName: string;
-  visibility: boolean;
 }
 
 // class PasswordForm extends React.Component {
@@ -17,7 +15,7 @@ interface Props {
 //   }
 // }
 
-function NextBossPoll({ onToggle = () => {}, bossName, visibility }: Props) {
+function NextBossPoll({ bossName }: bossProp) {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [prevTargetField, setPrevTargetField] = useState<HTMLDivElement>();
 
@@ -84,7 +82,6 @@ function NextBossPoll({ onToggle = () => {}, bossName, visibility }: Props) {
       return;
     }
     setSelectedUser('');
-    onToggle(null);
   };
 
   // This should stay pretty much the same through backend updates.
@@ -98,108 +95,100 @@ function NextBossPoll({ onToggle = () => {}, bossName, visibility }: Props) {
   const users = ['User1', 'User2', 'User3', 'User4', 'User5', 'User6', 'User7'];
 
   return (
-    <>
-      {visibility && (
-        <div className={styles.pollArea}>
-          <div className={styles.titleBox}>
-            <div className={styles.title}>{bossName} Poll</div>
-          </div>
-          <div className={styles.legend}>
-            <span className={styles.legendToday}>■ Today's Date</span>
-            <span className={styles.legendAvailable}>■ Available Dates</span>
-          </div>
-          <div className={styles.dayTimeSelectionGrid} onMouseLeave={handleMouseUp}>
-            {days.map((day: string, index: number) => (
-              <div key={index}>
-                {available.includes(day) && day != today && (
-                  <div className={styles.availableHeader} onMouseEnter={handleMouseUp}>
-                    &thinsp;{day[0]}
-                  </div>
-                )}
-                {!available.includes(day) && day != today && (
-                  <div className={styles.unavailableHeader} onMouseEnter={handleMouseUp}>
-                    &thinsp;{day[0]}
-                  </div>
-                )}
-                {available.includes(day) && day === today && (
-                  <div className={styles.availableHeader} onMouseEnter={handleMouseUp}>
-                    &thinsp;{day[0]}
-                    <div className={styles.availableTodayHeader} onMouseEnter={handleMouseUp} />
-                  </div>
-                )}
-                {!available.includes(day) && day === today && (
-                  <div className={styles.todayHeader} onMouseEnter={handleMouseUp}>
-                    &thinsp;{day[0]}
-                  </div>
-                )}
-                <div className={styles.dayGridItem}>
-                  {times.map((time: number, index: number) => (
-                    <div
-                      key={index}
-                      onMouseUp={handleMouseUp}
-                      onMouseDown={handleMouseDown}
-                      onMouseMove={handleMouseMove}
-                    >
-                      {available.includes(day) &&
-                        weekdays.includes(day) &&
-                        time > 5 &&
-                        time != 12 && <div className={styles.timeGridItemSelectable}>{time}</div>}
-                      {available.includes(day) &&
-                        weekdays.includes(day) &&
-                        (time <= 5 || time == 12) && (
-                          <div className={styles.timeGridItemDisabled}>{time}</div>
-                        )}
-                      {available.includes(day) && !weekdays.includes(day) && (
-                        <div className={styles.timeGridItemSelectable}>{time}</div>
-                      )}
-                      {!available.includes(day) && (
-                        <div className={styles.timeGridItemDisabled}>{time}</div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+    <div className={styles.pollArea}>
+      <div className={styles.titleBox}>
+        <div className={styles.title}>{bossName} Poll</div>
+      </div>
+      <div className={styles.legend}>
+        <span className={styles.legendToday}>■ Today's Date</span>
+        <span className={styles.legendAvailable}>■ Available Dates</span>
+      </div>
+      <div className={styles.dayTimeSelectionGrid} onMouseLeave={handleMouseUp}>
+        {days.map((day: string, index: number) => (
+          <div key={index}>
+            {available.includes(day) && day != today && (
+              <div className={styles.availableHeader} onMouseEnter={handleMouseUp}>
+                &thinsp;{day[0]}
               </div>
-            ))}
-          </div>
-          <div className={styles.buttonBar}>
-            <div className={styles.userSelectContainer}>
-              <div className={styles.userSelectDropdown}>
-                <button
-                  className={styles.userSelectDropdownButton}
-                  onClick={handleUserDropdownClick}
+            )}
+            {!available.includes(day) && day != today && (
+              <div className={styles.unavailableHeader} onMouseEnter={handleMouseUp}>
+                &thinsp;{day[0]}
+              </div>
+            )}
+            {available.includes(day) && day === today && (
+              <div className={styles.availableHeader} onMouseEnter={handleMouseUp}>
+                &thinsp;{day[0]}
+                <div className={styles.availableTodayHeader} onMouseEnter={handleMouseUp} />
+              </div>
+            )}
+            {!available.includes(day) && day === today && (
+              <div className={styles.todayHeader} onMouseEnter={handleMouseUp}>
+                &thinsp;{day[0]}
+              </div>
+            )}
+            <div className={styles.dayGridItem}>
+              {times.map((time: number, index: number) => (
+                <div
+                  key={index}
+                  onMouseUp={handleMouseUp}
+                  onMouseDown={handleMouseDown}
+                  onMouseMove={handleMouseMove}
                 >
-                  Select User ⮟
-                </button>
-                <div className={styles.userSelectDropdownContent}>
-                  {users.map((user: string, index: number) => (
-                    <span key={index} onClick={handleUserSelect}>
-                      {user}
-                    </span>
-                  ))}
+                  {available.includes(day) && weekdays.includes(day) && time > 5 && time != 12 && (
+                    <div className={styles.timeGridItemSelectable}>{time}</div>
+                  )}
+                  {available.includes(day) &&
+                    weekdays.includes(day) &&
+                    (time <= 5 || time == 12) && (
+                      <div className={styles.timeGridItemDisabled}>{time}</div>
+                    )}
+                  {available.includes(day) && !weekdays.includes(day) && (
+                    <div className={styles.timeGridItemSelectable}>{time}</div>
+                  )}
+                  {!available.includes(day) && (
+                    <div className={styles.timeGridItemDisabled}>{time}</div>
+                  )}
                 </div>
-              </div>
-              <form>
-                <button type="submit" disabled style={{ display: 'none' }} aria-hidden="true" />
-                <label>Password</label>
-                <input type="password" id="password" name="password" />
-              </form>
-            </div>
-            <div className={styles.submissionArea}>
-              <div className={styles.toolTipArea}>
-                <div className={styles.questionMark}>?</div>
-                <div className={styles.toolTip}>
-                  If you don't see your name here, please speak to the server owners.
-                </div>
-              </div>
-              <button className={styles.submitButton} onClick={handleNoUserSelected}>
-                Submit
-              </button>
-              <div className={styles.userSelectTip}>Please select your user</div>
+              ))}
             </div>
           </div>
+        ))}
+      </div>
+      <div className={styles.buttonBar}>
+        <div className={styles.userSelectContainer}>
+          <div className={styles.userSelectDropdown}>
+            <button className={styles.userSelectDropdownButton} onClick={handleUserDropdownClick}>
+              Select User ⮟
+            </button>
+            <div className={styles.userSelectDropdownContent}>
+              {users.map((user: string, index: number) => (
+                <span key={index} onClick={handleUserSelect}>
+                  {user}
+                </span>
+              ))}
+            </div>
+          </div>
+          <form>
+            <button type="submit" disabled style={{ display: 'none' }} aria-hidden="true" />
+            <label>Password</label>
+            <input type="password" id="password" name="password" />
+          </form>
         </div>
-      )}
-    </>
+        <div className={styles.submissionArea}>
+          <div className={styles.toolTipArea}>
+            <div className={styles.questionMark}>?</div>
+            <div className={styles.toolTip}>
+              If you don't see your name here, please speak to the server owners.
+            </div>
+          </div>
+          <button className={styles.submitButton} onClick={handleNoUserSelected}>
+            Submit
+          </button>
+          <div className={styles.userSelectTip}>Please select your user</div>
+        </div>
+      </div>
+    </div>
   );
 }
 

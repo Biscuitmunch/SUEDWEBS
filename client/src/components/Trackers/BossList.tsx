@@ -10,8 +10,8 @@ export interface Boss {
   kills: string;
 }
 
-interface ToggleProp {
-  onToggle: (bossName: string) => void;
+interface Props {
+  setBossName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function handleClickSpoilerText(e: React.MouseEvent<HTMLDivElement>): void {
@@ -24,7 +24,7 @@ function handleClickSpoilerText(e: React.MouseEvent<HTMLDivElement>): void {
   }
 }
 
-function BossList({ onToggle = () => {} }: ToggleProp) {
+function BossList({ setBossName }: Props) {
   const [isShowingAll, setIsShowingAll] = useState(false);
   const [bosses, setBosses] = useState<Boss[] | null>(null);
 
@@ -33,6 +33,11 @@ function BossList({ onToggle = () => {} }: ToggleProp) {
       .then((response) => response.json())
       .then(setBosses);
   }, []);
+
+  useEffect(() => {
+    const bossName = bosses?.find((boss) => boss.type === 'current')?.name;
+    if (bossName) setBossName(bossName);
+  }, [setBossName, bosses]);
 
   const handleShowAll = useCallback(() => {
     const allFuture = document.querySelectorAll('.future');
@@ -50,37 +55,16 @@ function BossList({ onToggle = () => {} }: ToggleProp) {
     <div>
       <div>Previous</div>
       <div className={styles.bossList}>
-        {bosses?.map((boss: Boss, index: number, bosses: Boss[]) => (
+        {bosses?.map((boss: Boss, index: number) => (
           <div key={index}>
-            {boss.type === 'current' && bosses.at(index - 1)?.type != 'current' && (
-              <div className={styles.currentContainer} onClick={() => onToggle(boss.name)}>
-                {bosses.slice(index)?.map((boss: Boss, index: number) => (
-                  <div key={index}>
-                    {boss.type === 'current' && (
-                      <div className={styles.bossEntry}>
-                        <div className={`${boss.type} ${styles[boss.type]}`}>{boss.name}</div>
-                        {boss.note ? <div>({boss.note})</div> : <div />}
-                        {boss.date ? <div>{boss.date}</div> : <div />}
-                        {boss.kills ? <div>{boss.kills}</div> : <div />}
-                      </div>
-                    )}
-                  </div>
-                ))}
+            <div className={styles.bossEntry}>
+              <div className={`${boss.type} ${styles[boss.type]}`} onClick={handleClickSpoilerText}>
+                {boss.name}
               </div>
-            )}
-            {boss.type != 'current' && (
-              <div className={styles.bossEntry}>
-                <div
-                  className={`${boss.type} ${styles[boss.type]}`}
-                  onClick={handleClickSpoilerText}
-                >
-                  {boss.name}
-                </div>
-                {boss.note ? <div>({boss.note})</div> : <div />}
-                {boss.date ? <div>{boss.date}</div> : <div />}
-                {boss.kills ? <div>{boss.kills}</div> : <div />}
-              </div>
-            )}
+              {boss.note ? <div>({boss.note})</div> : <div />}
+              {boss.date ? <div>{boss.date}</div> : <div />}
+              {boss.kills ? <div>{boss.kills}</div> : <div />}
+            </div>
           </div>
         ))}
       </div>

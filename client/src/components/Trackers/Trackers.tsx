@@ -5,32 +5,16 @@ import NextBossPoll from '../NextBossPoll';
 import styles from './Trackers.module.css';
 
 function Trackers() {
-  const [bossPollVisibility, setBossPollVisibility] = useState(false);
   const [bossName, setBossName] = useState('');
-
-  const toggleBossPoll = (name: string | null) => {
-    if (name === null) {
-      setBossPollVisibility(false);
-    } else if (name != bossName) {
-      setBossPollVisibility(true);
-      setBossName(name);
-    } else {
-      setBossPollVisibility(!bossPollVisibility);
-    }
-  };
 
   return (
     <div className={styles.trackerContainer}>
       <div className={styles.deathCount}>
         <DeathCount />
       </div>
-      <BossList onToggle={toggleBossPoll} />
+      <BossList setBossName={setBossName} />
       <div className={styles.nextBossPoll}>
-        <NextBossPoll
-          onToggle={toggleBossPoll}
-          visibility={bossPollVisibility}
-          bossName={bossName}
-        />
+        <NextBossPoll bossName={bossName} />
       </div>
     </div>
   );
