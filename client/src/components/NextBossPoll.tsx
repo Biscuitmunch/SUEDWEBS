@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect, type ChangeEvent } from 'react';
+import React, { useState, useReducer, type ChangeEvent } from 'react';
 import styles from './NextBossPoll.module.css';
 
 interface bossProp {
