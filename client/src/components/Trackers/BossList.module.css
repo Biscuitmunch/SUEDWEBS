@@ -1,5 +1,6 @@
 .bossList {
   max-height: 37.5rem;
+  /* min-width: 400px; */
   overflow-y: scroll;
   border: 5px solid var(--ctp-surface0);
   padding: 1rem;
@@ -81,5 +82,6 @@
 }
 
 .showAll > input {
+  width: fit-content;
   cursor: pointer;
 }

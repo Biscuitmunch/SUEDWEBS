@@ -1,11 +1,10 @@
 .trackerContainer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  width: 100vw;
+  width: 100%;
   gap: 3vw;
   align-items: end;
-  /* padding: 1rem 0 2rem 0; */
-  border: 1px solid black;
+  padding: 1rem 0 2rem 0;
 }
 
 @media (width < 600px) {

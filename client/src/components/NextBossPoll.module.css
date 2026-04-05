@@ -209,7 +209,7 @@ input {
   height: 1rem;
   width: calc(100% - 4px);
   background-color: var(--ctp-surface1);
-  border: 2px inset var(--ctp-overlay0);
+  border: 2px inset var(--ctp-overlay1);
   border-radius: 8px;
   padding: 0.25rem 0 0.25rem 0;
   text-align: center;
@@ -282,7 +282,7 @@ input:focus-visible {
   background-color: var(--ctp-sky);
 }
 
-.userSelectTip {
+.badFieldTip {
   display: block;
   visibility: hidden;
   text-align: center;
@@ -290,6 +290,6 @@ input:focus-visible {
   font-size: clamp(0.7rem, 0.7vw, 1rem);
 }
 
-.userSelectTip[show] {
+.badFieldTip[show] {
   visibility: visible;
 }
