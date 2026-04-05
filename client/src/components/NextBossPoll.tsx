@@ -1,4 +1,4 @@
-import React, { useState, useReducer, type ChangeEvent } from 'react';
+import React, { useState, useReducer, useEffect, type ChangeEvent } from 'react';
 import styles from './NextBossPoll.module.css';
 
 interface bossProp {
@@ -18,6 +18,7 @@ interface bossProp {
 function NextBossPoll({ bossName }: bossProp) {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [prevTargetTimeField, setPrevTargetTimeField] = useState<HTMLDivElement>();
+  const [selectedTimeFields, setSelectedTimeFields] = useState<HTMLDivElement[]>();
   const [showResults, setShowResults] = useState(false);
   // const userSelectTipRef = useRef<Element | null>(null);
 
@@ -55,7 +56,7 @@ function NextBossPoll({ bossName }: bossProp) {
     Thursday: [],
     Friday: [],
     Saturday: [],
-    User: '',
+    User: 'Select User ⮟',
     Password: '',
   };
 
@@ -192,6 +193,31 @@ function NextBossPoll({ bossName }: bossProp) {
 
   const [selectedFields, dispatch] = useReducer(pollFieldReducer, initialPollFieldState);
 
+  const timeFieldHelper = (
+    timeField: HTMLDivElement,
+    dayIndex: number,
+    timeIndex: number,
+    op: string
+  ) => {
+    if (op === 'add') {
+      dispatch({ type: days[dayIndex].slice(0, 2) as actionDays, payload: timeIndex, op: 'add' });
+      timeField.setAttribute('selected', '');
+      setSelectedTimeFields([...(selectedTimeFields ?? []), timeField]);
+    } else if (op === 'remove') {
+      dispatch({
+        type: days[dayIndex].slice(0, 2) as actionDays,
+        payload: timeIndex,
+        op: 'remove',
+      });
+      timeField.removeAttribute('selected');
+      setSelectedTimeFields([
+        ...(selectedTimeFields ?? []).slice(selectedTimeFields?.indexOf(timeField)),
+      ]);
+    } else {
+      throw new Error('Invalid operation in timeFieldHelper function.');
+    }
+  };
+
   const handleMouseDown = (
     e: React.MouseEvent<HTMLDivElement>,
     dayIndex: number,
@@ -199,15 +225,9 @@ function NextBossPoll({ bossName }: bossProp) {
   ) => {
     const timeField = e.target as HTMLDivElement;
     if (!timeField.hasAttribute('selected')) {
-      dispatch({ type: days[dayIndex].slice(0, 2) as actionDays, payload: timeIndex, op: 'add' });
-      timeField.setAttribute('selected', '');
+      timeFieldHelper(timeField, dayIndex, timeIndex, 'add');
     } else {
-      dispatch({
-        type: days[dayIndex].slice(0, 2) as actionDays,
-        payload: timeIndex,
-        op: 'remove',
-      });
-      timeField.removeAttribute('selected');
+      timeFieldHelper(timeField, dayIndex, timeIndex, 'remove');
     }
 
     setPrevTargetTimeField(timeField);
@@ -227,22 +247,11 @@ function NextBossPoll({ bossName }: bossProp) {
     if (timeField != prevTargetTimeField) {
       setPrevTargetTimeField(timeField);
       if (isMouseDown && !timeField?.hasAttribute('selected')) {
-        dispatch({ type: days[dayIndex].slice(0, 2) as actionDays, payload: timeIndex, op: 'add' });
-        timeField?.setAttribute('selected', '');
+        timeFieldHelper(timeField, dayIndex, timeIndex, 'add');
       } else if (isMouseDown && timeField.hasAttribute('selected')) {
-        dispatch({
-          type: days[dayIndex].slice(0, 2) as actionDays,
-          payload: timeIndex,
-          op: 'remove',
-        });
-        timeField.removeAttribute('selected');
+        timeFieldHelper(timeField, dayIndex, timeIndex, 'remove');
         if (prevTargetTimeField?.hasAttribute('selected')) {
-          dispatch({
-            type: days[dayIndex].slice(0, 2) as actionDays,
-            payload: timeIndex,
-            op: 'remove',
-          });
-          prevTargetTimeField.removeAttribute('selected');
+          timeFieldHelper(timeField, dayIndex, timeIndex, 'remove');
         }
       }
     }
@@ -268,11 +277,21 @@ function NextBossPoll({ bossName }: bossProp) {
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch({ type: 'PASSWORD', payload: e.target.value, op: null });
+    console.log(selectedFields.Password);
   };
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     const submit = handleFieldCheck(e);
-    if (submit) setShowResults(!showResults);
+    if (submit) {
+      setShowResults(!showResults);
+      if (showResults) {
+        dispatch({ type: 'PASSWORD', payload: '', op: null });
+        selectedTimeFields?.forEach((timeField) => {
+          timeField.setAttribute('selected', '');
+          console.log(timeField);
+        });
+      }
+    }
   };
 
   const handleFieldCheck = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -282,7 +301,7 @@ function NextBossPoll({ bossName }: bossProp) {
       badFieldTip.textContent = 'Please select time(s)';
       badFieldTip.setAttribute('show', '');
       return false;
-    } else if (selectedFields.User === '' && badFieldTip) {
+    } else if (selectedFields.User === 'Select User ⮟' && badFieldTip) {
       badFieldTip.textContent = 'Please select your user';
       badFieldTip.setAttribute('show', '');
       return false;
@@ -329,68 +348,68 @@ function NextBossPoll({ bossName }: bossProp) {
           </div>
         </>
       )}
-      {!showResults && (
-        <>
-          <div className={styles.titleBox}>
-            <div className={styles.title}>{bossName} Poll</div>
-          </div>
-          <div className={styles.legend}>
-            <span className={styles.legendToday}>■ Today's Date</span>
-            <span className={styles.legendAvailable}>■ Available Dates</span>
-          </div>
-          <div className={styles.dayTimeSelectionGrid} onMouseLeave={handleMouseUp}>
-            {days.map((day: string, dayIndex: number) => (
-              <div key={dayIndex}>
-                {available.includes(day) && day != today && (
-                  <div className={styles.availableHeader} onMouseEnter={handleMouseUp}>
-                    &thinsp;{day[0]}
-                  </div>
-                )}
-                {!available.includes(day) && day != today && (
-                  <div className={styles.unavailableHeader} onMouseEnter={handleMouseUp}>
-                    &thinsp;{day[0]}
-                  </div>
-                )}
-                {available.includes(day) && day === today && (
-                  <div className={styles.availableHeader} onMouseEnter={handleMouseUp}>
-                    &thinsp;{day[0]}
-                    <div className={styles.availableTodayHeader} onMouseEnter={handleMouseUp} />
-                  </div>
-                )}
-                {!available.includes(day) && day === today && (
-                  <div className={styles.todayHeader} onMouseEnter={handleMouseUp}>
-                    &thinsp;{day[0]}
-                  </div>
-                )}
-                <div className={styles.dayGridColumn}>
-                  {times.map((time: number, timeIndex: number) => (
-                    <div
-                      key={timeIndex}
-                      onMouseUp={handleMouseUp}
-                      onMouseDown={(e) => handleMouseDown(e, dayIndex, timeIndex)}
-                      onMouseMove={(e) => handleMouseMove(e, dayIndex, timeIndex)}
-                    >
-                      {available.includes(day) &&
-                        weekdays.includes(day) &&
-                        time > 5 &&
-                        time != 12 && <div className={styles.timeGridItemSelectable}>{time}</div>}
-                      {available.includes(day) &&
-                        weekdays.includes(day) &&
-                        (time <= 5 || time == 12) && (
-                          <div className={styles.timeGridItemDisabled}>{time}</div>
-                        )}
-                      {available.includes(day) && !weekdays.includes(day) && (
-                        <div className={styles.timeGridItemSelectable}>{time}</div>
-                      )}
-                      {!available.includes(day) && (
+      <div hidden={showResults}>
+        <div className={styles.titleBox}>
+          <div className={styles.title}>{bossName} Poll</div>
+        </div>
+        <div className={styles.legend}>
+          <span className={styles.legendToday}>■ Today's Date</span>
+          <span className={styles.legendAvailable}>■ Available Dates</span>
+        </div>
+        <div className={styles.dayTimeSelectionGrid} onMouseLeave={handleMouseUp}>
+          {days.map((day: string, dayIndex: number) => (
+            <div key={dayIndex}>
+              {available.includes(day) && day != today && (
+                <div className={styles.availableHeader} onMouseEnter={handleMouseUp}>
+                  &thinsp;{day[0]}
+                </div>
+              )}
+              {!available.includes(day) && day != today && (
+                <div className={styles.unavailableHeader} onMouseEnter={handleMouseUp}>
+                  &thinsp;{day[0]}
+                </div>
+              )}
+              {available.includes(day) && day === today && (
+                <div className={styles.availableHeader} onMouseEnter={handleMouseUp}>
+                  &thinsp;{day[0]}
+                  <div className={styles.availableTodayHeader} onMouseEnter={handleMouseUp} />
+                </div>
+              )}
+              {!available.includes(day) && day === today && (
+                <div className={styles.todayHeader} onMouseEnter={handleMouseUp}>
+                  &thinsp;{day[0]}
+                </div>
+              )}
+              <div className={styles.dayGridColumn}>
+                {times.map((time: number, timeIndex: number) => (
+                  <div
+                    key={timeIndex}
+                    onMouseUp={handleMouseUp}
+                    onMouseDown={(e) => handleMouseDown(e, dayIndex, timeIndex)}
+                    onMouseMove={(e) => handleMouseMove(e, dayIndex, timeIndex)}
+                  >
+                    {available.includes(day) &&
+                      weekdays.includes(day) &&
+                      time > 5 &&
+                      time != 12 && <div className={styles.timeGridItemSelectable}>{time}</div>}
+                    {available.includes(day) &&
+                      weekdays.includes(day) &&
+                      (time <= 5 || time == 12) && (
                         <div className={styles.timeGridItemDisabled}>{time}</div>
                       )}
-                    </div>
-                  ))}
-                </div>
+                    {available.includes(day) && !weekdays.includes(day) && (
+                      <div className={styles.timeGridItemSelectable}>{time}</div>
+                    )}
+                    {!available.includes(day) && (
+                      <div className={styles.timeGridItemDisabled}>{time}</div>
+                    )}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
+        {!showResults && (
           <div className={styles.buttonBar}>
             <div className={styles.userSelectContainer}>
               <div className={styles.userSelectDropdown}>
@@ -398,7 +417,7 @@ function NextBossPoll({ bossName }: bossProp) {
                   className={styles.userSelectDropdownButton}
                   onClick={handleUserDropdownClick}
                 >
-                  Select User ⮟
+                  {selectedFields.User}
                 </button>
                 <div className={styles.userSelectDropdownContent}>
                   {users.map((user: string, index: number) => (
@@ -432,8 +451,8 @@ function NextBossPoll({ bossName }: bossProp) {
               <div className={styles.badFieldTip} />
             </div>
           </div>
-        </>
-      )}
+        )}
+      </div>
     </div>
   );
 }
