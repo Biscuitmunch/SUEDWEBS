@@ -7,11 +7,12 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Install Dependencies and Build
-RUN npm ci
-RUN npm run build
+RUN npm install -g pnpm
+RUN pnpm install --frozen-lockfile
+RUN pnpm run build
 
 # Setup Production Build
-RUN npm ci --omit=dev
+RUN pnpm ci --omit=dev
 ENV NODE_ENV=production
 
 # Run

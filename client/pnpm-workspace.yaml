@@ -1,0 +1,3 @@
+settings:
+  blockExoticSubdeps: true
+  minimumReleaseAge: 10080
