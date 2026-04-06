@@ -10,7 +10,7 @@ export interface Boss {
   kills: string;
 }
 
-interface Props {
+interface BossListProps {
   setBossName: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -24,7 +24,7 @@ function handleClickSpoilerText(e: React.MouseEvent<HTMLDivElement>): void {
   }
 }
 
-function BossList({ setBossName }: Props) {
+function BossList({ setBossName }: BossListProps) {
   const [isShowingAll, setIsShowingAll] = useState(false);
   const [bosses, setBosses] = useState<Boss[] | null>(null);
 
@@ -56,15 +56,13 @@ function BossList({ setBossName }: Props) {
       <div>Previous</div>
       <div className={styles.bossList}>
         {bosses?.map((boss: Boss, index: number) => (
-          <div key={index}>
-            <div className={styles.bossEntry}>
-              <div className={`${boss.type} ${styles[boss.type]}`} onClick={handleClickSpoilerText}>
-                {boss.name}
-              </div>
-              {boss.note ? <div>({boss.note})</div> : <div />}
-              {boss.date ? <div>{boss.date}</div> : <div />}
-              {boss.kills ? <div>{boss.kills}</div> : <div />}
+          <div key={index} className={styles.bossEntry}>
+            <div className={`${boss.type} ${styles[boss.type]}`} onClick={handleClickSpoilerText}>
+              {boss.name}
             </div>
+            {boss.note ? <div>({boss.note})</div> : <div />}
+            {boss.date ? <div>{boss.date}</div> : <div />}
+            {boss.kills ? <div>{boss.kills}</div> : <div />}
           </div>
         ))}
       </div>

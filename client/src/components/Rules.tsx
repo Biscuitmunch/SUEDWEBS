@@ -27,8 +27,9 @@ function Rules() {
             that have been fought and defeated by everyone previously.
           </li>
           <li>
-            Please make sure to have entered your preferred times for the next boss at least half a
-            week (3 days) in advance.
+            It is advised (but not required) to have entered your preferred times for the next boss
+            at least 3 days in advance. Leaving it too late may result in your vote not being
+            counted.
           </li>
         </ul>
       </div>
