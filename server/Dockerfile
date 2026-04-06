@@ -12,7 +12,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm run build
 
 # Setup Production Build
-RUN pnpm ci --omit=dev
+RUN pnpm install --frozen-lockfile --prod
 ENV NODE_ENV=production
 
 # Run
