@@ -24,8 +24,11 @@ jobs:
         with:
           node-version: 24.x
 
+      - name: Setup pnpm
+        run: npm install -g pnpm
+
       - name: Install Dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Lint
         run: npx eslint . --max-warnings=0
