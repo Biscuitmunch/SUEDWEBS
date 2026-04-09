@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import styles from './BossList.module.css';
-import { BASE_URL } from '../constants';
+import { BASE_URL } from '../../constants';
 
 export interface Boss {
   name: string;

@@ -1,9 +1,10 @@
 import styles from './Rules.module.css';
+import title from './FontStyles.module.css';
 
 function Rules() {
   return (
     <>
-      <div className={styles.title}>Rules</div>
+      <div className={title.title}>Rules</div>
       <div className={styles.rulesContainer}>
         <ul>
           <li>
