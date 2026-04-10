@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import styles from './BossList.module.css';
-import { BASE_URL } from '../constants';
+import { BASE_URL } from '../../constants';
 
 export interface Boss {
   name: string;
@@ -10,8 +10,12 @@ export interface Boss {
   kills: string;
 }
 
+interface BossListProps {
+  setBossName: React.Dispatch<React.SetStateAction<string>>;
+}
+
 function handleClickSpoilerText(e: React.MouseEvent<HTMLDivElement>): void {
-  const el = e.target as HTMLDivElement;
+  const el = e.currentTarget as HTMLDivElement;
 
   if (el.hasAttribute('clicked')) {
     el.removeAttribute('clicked');
@@ -20,7 +24,7 @@ function handleClickSpoilerText(e: React.MouseEvent<HTMLDivElement>): void {
   }
 }
 
-function BossList() {
+function BossList({ setBossName }: BossListProps) {
   const [isShowingAll, setIsShowingAll] = useState(false);
   const [bosses, setBosses] = useState<Boss[] | null>(null);
 
@@ -30,13 +34,18 @@ function BossList() {
       .then(setBosses);
   }, []);
 
+  useEffect(() => {
+    const bossName = bosses?.find((boss) => boss.type === 'current')?.name;
+    if (bossName) setBossName(bossName);
+  }, [setBossName, bosses]);
+
   const handleShowAll = useCallback(() => {
-    const allElements = document.querySelectorAll('.future');
+    const allFuture = document.querySelectorAll('.future');
 
     if (isShowingAll) {
-      allElements.forEach((x) => x.removeAttribute('clicked'));
+      allFuture.forEach((x) => x.removeAttribute('clicked'));
     } else {
-      allElements.forEach((x) => x.setAttribute('clicked', ''));
+      allFuture.forEach((x) => x.setAttribute('clicked', ''));
     }
 
     setIsShowingAll((prev) => !prev);
@@ -46,18 +55,16 @@ function BossList() {
     <div>
       <div>Previous</div>
       <div className={styles.bossList}>
-        <div>
-          {bosses?.map((boss: Boss, index: number) => (
-            <div key={index} className={styles.bossEntry}>
-              <div className={`${boss.type} ${styles[boss.type]}`} onClick={handleClickSpoilerText}>
-                {boss.name}
-              </div>
-              {boss.note ? <div>({boss.note})</div> : <div />}
-              {boss.date ? <div>{boss.date}</div> : <div />}
-              {boss.kills ? <div>{boss.kills}</div> : <div />}
+        {bosses?.map((boss: Boss, index: number) => (
+          <div key={index} className={styles.bossEntry}>
+            <div className={`${boss.type} ${styles[boss.type]}`} onClick={handleClickSpoilerText}>
+              {boss.name}
             </div>
-          ))}
-        </div>
+            {boss.note ? <div>({boss.note})</div> : <div />}
+            {boss.date ? <div>{boss.date}</div> : <div />}
+            {boss.kills ? <div>{boss.kills}</div> : <div />}
+          </div>
+        ))}
       </div>
       <label className={styles.showAll}>
         <span>Show All</span>

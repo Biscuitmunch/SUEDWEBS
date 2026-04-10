@@ -1,0 +1,291 @@
+.container {
+  border-radius: inherit;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* Below doesn't work in firefox :( */
+.container::-webkit-scrollbar-button {
+  display: none;
+}
+
+.legend {
+  display: flex;
+  direction: row;
+  gap: 5%;
+  justify-content: center;
+  margin: 0.25rem 1rem 0.25rem 1rem;
+}
+
+.legendToday {
+  font-size: calc(0.6rem + 0.4vw);
+  color: var(--ctp-peach);
+  text-align: center;
+}
+
+.legendAvailable {
+  font-size: calc(0.6rem + 0.4vw);
+  color: var(--ctp-sky);
+  text-align: center;
+}
+
+.todayHeader,
+.availableHeader,
+.availableTodayHeader,
+.unavailableHeader {
+  display: flex;
+  font-size: clamp(0.5rem, 0.9vw, 1rem);
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2;
+}
+
+@media (width < 600px) {
+  .todayHeader,
+  .availableHeader,
+  .availableTodayHeader,
+  .unavailableHeader {
+    font-size: 1rem;
+  }
+}
+
+.todayHeader {
+  background-color: var(--ctp-peach);
+  color: var(--ctp-surface0);
+}
+
+.availableHeader {
+  background-color: var(--ctp-sky);
+  color: var(--ctp-surface0);
+  position: relative;
+}
+
+.availableTodayHeader {
+  width: 100%;
+  clip-path: polygon(0 100%, 100% 0, 100% 100%);
+  transform: translateY(0.5px);
+  will-change: transform;
+  background-color: var(--ctp-peach);
+  color: var(--ctp-surface0);
+  position: absolute;
+}
+
+.unavailableHeader {
+  background-color: var(--ctp-surface0);
+}
+
+.dayTimeSelectionGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  box-sizing: border-box;
+  background-color: var(--ctp-mantle);
+  gap: 3px;
+  margin: 0 1rem 0 1rem;
+  overflow-y: auto;
+  cursor: pointer;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.dayGridColumn {
+  display: grid;
+  grid-template-rows: repeat(11, 1fr);
+}
+
+.timeGridItemSelectable,
+.timeGridItemDisabled {
+  display: grid;
+  grid-template-columns: subgrid;
+  border-bottom: 1px dashed var(--ctp-surface0);
+  font-size: 0.7rem;
+  padding-left: 0.1rem;
+}
+
+.timeGridItemSelectable {
+  background-color: var(--ctp-overlay0);
+}
+
+.timeGridItemSelectable[selected] {
+  background-color: var(--ctp-green);
+  color: var(--ctp-surface0);
+}
+
+.timeGridItemDisabled {
+  background-color: var(--ctp-surface1);
+}
+
+.buttonBar {
+  display: grid;
+  grid-template-columns: 5fr 6fr;
+  padding: 0.5rem 1vw 0.5rem 1vw;
+  margin-top: 0.25rem;
+  gap: 0.75vw;
+}
+
+.userSelectContainer {
+  display: grid;
+  grid-column: 1;
+  grid-template-rows: 1fr 1fr 0.5fr;
+  text-align: center;
+}
+
+.userSelectDropdown {
+  position: relative;
+  align-self: center;
+}
+
+.userSelectDropdownButton {
+  width: 100%;
+  background-color: var(--ctp-surface1);
+  text-align: center;
+  font-size: calc(0.6rem + 0.4vw);
+  cursor: pointer;
+  padding: 0.25vw 1.5vw 0.25vw 1.5vw;
+}
+
+.userSelectDropdownButton:hover,
+.userSelectDropdownButton:focus {
+  background-color: var(--ctp-surface0);
+  border: 1px solid var(--ctp-overlay1);
+}
+
+.userSelectDropdownButton[clicked] {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.userSelectDropdownButton[clicked] + .userSelectDropdownContent {
+  display: block;
+}
+
+.userSelectDropdownContent {
+  display: none;
+  width: 100%;
+  max-height: 4.5rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  position: absolute;
+  cursor: pointer;
+}
+
+.userSelectDropdownContent::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.userSelectDropdownContent span {
+  display: block;
+  width: inherit;
+  text-align: center;
+  background-color: var(--ctp-surface1);
+  border-top: 1px solid var(--ctp-overlay0);
+  padding: 0.1rem 0 0.1rem 0;
+}
+
+.userSelectDropdownContent span:hover {
+  background-color: var(--ctp-surface0);
+}
+
+.passwordContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+input {
+  height: 1rem;
+  width: calc(100% - 4px);
+  background-color: var(--ctp-surface1);
+  border: 2px inset var(--ctp-overlay1);
+  border-radius: 8px;
+  padding: 0.25rem 0 0.25rem 0;
+  text-align: center;
+}
+
+input:hover,
+input:focus {
+  background-color: var(--ctp-surface0);
+}
+
+input:focus,
+input:focus-visible {
+  outline: 1px solid var(--ctp-overlay1);
+}
+
+.submissionArea {
+  display: grid;
+  grid-column: 2;
+  grid-template-rows: 1fr 1fr 0.5fr;
+  gap: 0.25rem;
+}
+
+.toolTipArea {
+  display: flex;
+  align-items: center;
+}
+
+.questionMark {
+  flex: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  font-family: monospace;
+  font-size: 1rem;
+  text-align: center;
+  line-height: normal;
+  border: 1px solid var(--ctp-surface1);
+  border-radius: 50%;
+  cursor: pointer;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.toolTip,
+.toolTipSmall {
+  visibility: hidden;
+  padding-left: 0.5rem;
+  font-size: 0.7rem;
+  -moz-user-select: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+.toolTip {
+  display: inline-block;
+}
+.toolTipSmall {
+  display: none;
+}
+
+@media (max-width: 1600px) {
+  .toolTip {
+    display: none;
+  }
+  .toolTipSmall {
+    display: inline-block;
+  }
+}
+
+.questionMark:hover {
+  border: 1px solid var(--ctp-red);
+  filter: blur(0.1rem);
+}
+
+.questionMark:hover ~ .toolTip,
+.questionMark:hover ~ .toolTipSmall {
+  visibility: visible;
+}
+
+.badFieldTip {
+  display: block;
+  visibility: hidden;
+  text-align: center;
+  color: var(--ctp-red);
+  font-size: clamp(0.7rem, 0.7vw, 1rem);
+}
+
+.badFieldTip[show] {
+  visibility: visible;
+}
